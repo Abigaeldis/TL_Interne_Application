@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.m2i.TL_Interne_Application.entities.Reservation;
-import com.m2i.TL_Interne_Application.entities.Restaurant;
 import com.m2i.TL_Interne_Application.services.ReservationService;
 
 @RestController
