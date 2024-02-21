@@ -1,5 +1,8 @@
 package com.m2i.TL_Interne_Application.services;
 
+import java.time.LocalDateTime;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -30,4 +33,9 @@ public class ReservationService {
 	public void deleteById(int id) {
 		reservationRepository.deleteById(id);
 	}
+	
+	public List<Reservation> getAllReservationsByDate(LocalDateTime startOfDay, LocalDateTime endOfDay) {
+	    return reservationRepository.findByDateBetween(startOfDay, endOfDay);
+	}
+
 }
