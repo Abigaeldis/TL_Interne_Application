@@ -18,7 +18,7 @@ import com.m2i.TL_Interne_Application.services.MessageService;
 
 @RestController
 @CrossOrigin
-@RequestMapping("/message")
+@RequestMapping("/messages")
 public class MessageController {
 	@Autowired
 	private MessageService messageService;

@@ -18,7 +18,7 @@ import com.m2i.TL_Interne_Application.services.CommandeService;
 
 @RestController
 @CrossOrigin
-@RequestMapping("/commande")
+@RequestMapping("/commandes")
 public class CommandeController {
 	@Autowired
 	private CommandeService commandeService;
