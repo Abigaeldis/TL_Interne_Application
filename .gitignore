@@ -259,3 +259,5 @@ README.html
 *.iml
 .idea
 .exercism
+
+*.properties
