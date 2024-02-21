@@ -18,7 +18,7 @@ import com.m2i.TL_Interne_Application.services.UtilisateurService;
 
 @RestController
 @CrossOrigin
-@RequestMapping("/utilisateur")
+@RequestMapping("/utilisateurs")
 public class UtilisateurController {
 	@Autowired
 	private UtilisateurService utilisateurService;
