@@ -23,10 +23,7 @@ public class PlatCommande {
 	@ManyToOne
 	@JoinColumn(name = "id_plat")
 	private Plat plat;
-	
-	@ManyToOne
-	@JoinColumn(name = "id_commande")
-	private Commande commande;
+
 
 }
 
