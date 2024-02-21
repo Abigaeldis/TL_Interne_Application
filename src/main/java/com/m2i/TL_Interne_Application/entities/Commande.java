@@ -8,11 +8,10 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
-import jakarta.persistence.Table;
 import lombok.Data;
 
 @Entity
-@Table(name = "commandes")
+@jakarta.persistence.Table(name = "commandes")
 @Data
 public class Commande {
 	@Id
@@ -20,6 +19,9 @@ public class Commande {
 	private int id;
 	private String statut;
 	private LocalDateTime date;
+	
+	@ManyToOne
+	@JoinColumn(name = "id_table")
 	private Table table;
 
 	@ManyToOne
