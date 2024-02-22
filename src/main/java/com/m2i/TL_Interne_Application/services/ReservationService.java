@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.m2i.TL_Interne_Application.entities.Reservation;
+import com.m2i.TL_Interne_Application.entities.Restaurant;
 import com.m2i.TL_Interne_Application.repositories.ReservationRepository;
 
 @Service
@@ -37,12 +38,9 @@ public class ReservationService {
 	public List<Reservation> getAllReservationsByDate(LocalDateTime startOfDay, LocalDateTime endOfDay) {
 		return reservationRepository.findByDateBetween(startOfDay, endOfDay);
 	}
-
- 
-
-
-
-
+	
+	public List<Reservation> findByRestaurant(Restaurant restaurant) {
+		return reservationRepository.findByRestaurant(restaurant);
 	}
 
-
+}
