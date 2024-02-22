@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.m2i.TL_Interne_Application.entities.Commande;
+import com.m2i.TL_Interne_Application.entities.PlatCommandeWrapper;
 import com.m2i.TL_Interne_Application.services.CommandeService;
 
 @RestController
@@ -39,17 +40,34 @@ public class CommandeController {
 
 	 @GetMapping("/by-plat-commande-is-not-empty")
 	    public ResponseEntity<List<Commande>> getByPlatCommandeIsNotEmpty() {
-	        List<Commande> commandes = commandeService.findByPlatCommandeIsNotEmpty();
-	        return new ResponseEntity<>(commandes, HttpStatus.OK);
-	    }
+        List<Commande> commandes = commandeService.findByPlatCommandeIsNotEmpty();
+        return new ResponseEntity<>(commandes, HttpStatus.OK);
+    }
 
-	    @GetMapping("/total-price/{id}")
-	    public ResponseEntity<Double> getTotalPriceOfCommande(@PathVariable("id")int commandeId) {
-	        Commande commande = commandeService.getById(commandeId);
-	        double totalPrice = commandeService.getTotalPriceOfCommande(commande);
-	        return new ResponseEntity<>(totalPrice, HttpStatus.OK);
-	    }
+//    @GetMapping("/total-price/{id}")
+//    public ResponseEntity<Double> getTotalPriceOfCommande(@PathVariable("id")int commandeId) {
+//        Commande commande = commandeService.getById(commandeId);
+//        double totalPrice = commandeService.getTotalPriceOfCommande(commande);
+//        return new ResponseEntity<>(totalPrice, HttpStatus.OK);
+//    }
+//    
+//    @GetMapping("/listeAddition/{id}")
+//    public ResponseEntity<List<PlatCommandeWrapper>> getListeAddition(@PathVariable("id") int commandeId) {
+//        Commande commande = commandeService.getById(commandeId);
+//       List<PlatCommandeWrapper> liste_plats = commandeService.getListeAddition(commande);
+//       return new ResponseEntity<>(liste_plats, HttpStatus.OK);
+//   }
 
+    @GetMapping("/addition/{id}")
+    public ResponseEntity<AdditionWrapper> getAddition(@PathVariable("id") int commandeId) {
+        Commande commande = commandeService.getById(commandeId);
+        List<PlatCommandeWrapper> listePlats = commandeService.getListeAddition(commande);
+        float sommeTotale = commandeService.getTotalPriceOfCommande(commande);
+        AdditionWrapper addition = new AdditionWrapper(listePlats, sommeTotale);
+        System.out.println(addition);
+        return new ResponseEntity<>(addition, HttpStatus.OK);
+    }
+    
 	@PostMapping
 	public ResponseEntity<Commande> insert(@RequestBody Commande commande) {
 		commandeService.save(commande);
