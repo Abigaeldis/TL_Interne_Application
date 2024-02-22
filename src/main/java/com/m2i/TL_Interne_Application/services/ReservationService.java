@@ -38,9 +38,11 @@ public class ReservationService {
 	public List<Reservation> getAllReservationsByDate(LocalDateTime startOfDay, LocalDateTime endOfDay) {
 		return reservationRepository.findByDateBetween(startOfDay, endOfDay);
 	}
+
 	
 	public List<Reservation> findByRestaurant(Restaurant restaurant) {
 		return reservationRepository.findByRestaurant(restaurant);
+
 	}
 
 }
