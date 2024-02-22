@@ -10,7 +10,5 @@ import com.m2i.TL_Interne_Application.entities.Reservation;
 public interface ReservationRepository extends CrudRepository<Reservation, Integer> {
 
 	List<Reservation> findByDateBetween(LocalDateTime startOfDay, LocalDateTime endOfDay);
-
-
-
+	List<Reservation> findByRestaurantId(int restaurantId);
 }
