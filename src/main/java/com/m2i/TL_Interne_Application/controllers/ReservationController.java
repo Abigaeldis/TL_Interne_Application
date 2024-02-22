@@ -3,6 +3,7 @@ package com.m2i.TL_Interne_Application.controllers;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,43 +29,59 @@ import com.m2i.TL_Interne_Application.services.ReservationService;
 public class ReservationController {
 	@Autowired
 	private ReservationService service;
-	
+
 	@GetMapping
-	public Iterable<Reservation> getAll(){
+	public Iterable<Reservation> getAll() {
 		return service.getAll();
 	}
-	
+
 	@GetMapping(path = "/{id}")
-	public ResponseEntity<Reservation> getById(@PathVariable("id") int id){
+	public ResponseEntity<Reservation> getById(@PathVariable("id") int id) {
 		return new ResponseEntity<>(service.getById(id), HttpStatus.OK);
 	}
-	
+
 	@GetMapping(path = "/par-date")
 	public ResponseEntity<List<Reservation>> getAllReservationsByDate(@RequestParam("date") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date) {
 		System.out.println(date);
-	    LocalDateTime startOfDay = date.atStartOfDay();
-	    LocalDateTime endOfDay = date.atTime(LocalTime.MAX);
-	    System.out.println(startOfDay);
-	    System.out.println(endOfDay);
-	    List<Reservation> reservations = service.getAllReservationsByDate(startOfDay, endOfDay);
-	    return new ResponseEntity<>(reservations, HttpStatus.OK);
+		LocalDateTime startOfDay = date.atStartOfDay();
+		LocalDateTime endOfDay = date.atTime(LocalTime.MAX);
+		System.out.println(startOfDay);
+		System.out.println(endOfDay);
+		List<Reservation> reservations = service.getAllReservationsByDate(startOfDay, endOfDay);
+		return new ResponseEntity<>(reservations, HttpStatus.OK);
 	}
 
+	@GetMapping(path = "numTables/par-date")
+	public ResponseEntity<List<Integer>> getNuMTablesByDate(@RequestParam("date") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date) {
+	    System.out.println(date);
+	    LocalDateTime startOfDay = date.atStartOfDay();
+	    LocalDateTime endOfDay = date.atTime(LocalTime.MAX);
+	    
+	    List<Reservation> reservations = service.getAllReservationsByDate(startOfDay, endOfDay);
+	    List<Integer> tableNumbers = new ArrayList<>();
+	    
+	    for (Reservation reservation : reservations) {
+	        tableNumbers.add(reservation.getTable().getNumTable());
+	    }
+
+	    return new ResponseEntity<>(tableNumbers, HttpStatus.OK);
+	}
+	
 	
 	@PostMapping
-	public ResponseEntity<Void> save(@RequestBody Reservation reservation){
+	public ResponseEntity<Void> save(@RequestBody Reservation reservation) {
 		service.saveOrUpdate(reservation);
 		return new ResponseEntity<>(HttpStatus.CREATED);
 	}
-	
+
 	@DeleteMapping(path = "/{id}")
-	public ResponseEntity<Void> deleteById(@PathVariable("id") int id){
+	public ResponseEntity<Void> deleteById(@PathVariable("id") int id) {
 		service.deleteById(id);
 		return new ResponseEntity<>(HttpStatus.OK);
 	}
-	
+
 	@DeleteMapping
-	public ResponseEntity<Void> deleteById(@RequestBody Reservation reservation){
+	public ResponseEntity<Void> deleteById(@RequestBody Reservation reservation) {
 		service.delete(reservation);
 		return new ResponseEntity<>(HttpStatus.OK);
 	}
