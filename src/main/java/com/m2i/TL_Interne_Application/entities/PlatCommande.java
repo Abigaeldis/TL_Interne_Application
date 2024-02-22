@@ -18,7 +18,7 @@ public class PlatCommande {
 	private int id;
 	
 	@Column(name = "nb_plat")
-	private String nbPlat;
+	private int nbPlat;
 	
 	@ManyToOne
 	@JoinColumn(name = "id_plat")
