@@ -13,29 +13,36 @@ import com.m2i.TL_Interne_Application.repositories.ReservationRepository;
 public class ReservationService {
 	@Autowired
 	private ReservationRepository reservationRepository;
-	
-	public Iterable<Reservation> getAll(){
+
+	public Iterable<Reservation> getAll() {
 		return reservationRepository.findAll();
 	}
-	
+
 	public Reservation getById(int id) {
 		return reservationRepository.findById(id).get();
 	}
-	
+
 	public void saveOrUpdate(Reservation reservation) {
 		reservationRepository.save(reservation);
 	}
-	
+
 	public void delete(Reservation reservation) {
 		reservationRepository.delete(reservation);
 	}
-	
+
 	public void deleteById(int id) {
 		reservationRepository.deleteById(id);
 	}
-	
+
 	public List<Reservation> getAllReservationsByDate(LocalDateTime startOfDay, LocalDateTime endOfDay) {
-	    return reservationRepository.findByDateBetween(startOfDay, endOfDay);
+		return reservationRepository.findByDateBetween(startOfDay, endOfDay);
 	}
 
-}
+ 
+
+
+
+
+	}
+
+
