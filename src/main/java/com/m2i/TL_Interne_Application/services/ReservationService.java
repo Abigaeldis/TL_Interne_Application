@@ -38,11 +38,8 @@ public class ReservationService {
 		return reservationRepository.findByDateBetween(startOfDay, endOfDay);
 	}
 
- 
-
-
-
-
+	public List<Reservation> getReservationsByRestaurantId(int restaurantId) {
+		return reservationRepository.findByRestaurantId(restaurantId);
 	}
 
-
+}

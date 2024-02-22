@@ -67,6 +67,14 @@ public class ReservationController {
 	    return new ResponseEntity<>(tableNumbers, HttpStatus.OK);
 	}
 	
+	 @GetMapping("/restaurants/{restaurantId}")
+	    public ResponseEntity<List<Reservation>> getReservationsByRestaurantId(@PathVariable int restaurantId) {
+	        List<Reservation> reservations = service.getReservationsByRestaurantId(restaurantId);
+	        if (reservations.isEmpty()) {
+	            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+	        }
+	        return new ResponseEntity<>(reservations, HttpStatus.OK);
+	    }
 	
 	@PostMapping
 	public ResponseEntity<Void> save(@RequestBody Reservation reservation) {
