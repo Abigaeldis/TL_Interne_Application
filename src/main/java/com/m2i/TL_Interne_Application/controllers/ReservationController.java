@@ -43,7 +43,7 @@ public class ReservationController {
 		return new ResponseEntity<>(service.getById(id), HttpStatus.OK);
 	}
 	
-	@GetMapping(path = "restaurant/{id}")
+	@GetMapping(path = "/restaurant/{id}")
 	public ResponseEntity<List<Reservation>> getByRestaurant(@PathVariable("id") int id){
 		return new ResponseEntity<>(service.findByRestaurant(restaurantService.getById(id)), HttpStatus.OK);
 	}
@@ -59,7 +59,7 @@ public class ReservationController {
 		return new ResponseEntity<>(reservations, HttpStatus.OK);
 	}
 
-	@GetMapping(path = "numTables/par-date")
+	@GetMapping(path = "/numTables/par-date")
 	public ResponseEntity<List<Integer>> getNuMTablesByDate(@RequestParam("date") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date) {
 	    System.out.println(date);
 	    LocalDateTime startOfDay = date.atStartOfDay();
@@ -75,14 +75,6 @@ public class ReservationController {
 	    return new ResponseEntity<>(numerosTables, HttpStatus.OK);
 	}
 	
-	 @GetMapping("/restaurants/{restaurantId}")
-	    public ResponseEntity<List<Reservation>> getReservationsByRestaurantId(@PathVariable int restaurantId) {
-	        List<Reservation> reservations = service.getReservationsByRestaurantId(restaurantId);
-	        if (reservations.isEmpty()) {
-	            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-	        }
-	        return new ResponseEntity<>(reservations, HttpStatus.OK);
-	    }
 	
 	@PostMapping
 	public ResponseEntity<Void> save(@RequestBody Reservation reservation) {
