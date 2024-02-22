@@ -1,5 +1,7 @@
 package com.m2i.TL_Interne_Application.entities;
 
+import java.time.LocalDateTime;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -25,6 +27,10 @@ public class Utilisateur {
 	private String telephone;
 	private String adresse;
 	private String role;
+	
+	private String token;
+	@Column(name = "expirationTime")
+	private LocalDateTime expirationTime;
 
 	@ManyToOne
 	@JoinColumn(name = "id_restaurant")
