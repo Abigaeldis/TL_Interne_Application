@@ -1,8 +1,11 @@
 package com.m2i.TL_Interne_Application.services;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.m2i.TL_Interne_Application.entities.Restaurant;
 import com.m2i.TL_Interne_Application.entities.Table;
 import com.m2i.TL_Interne_Application.repositories.TableRepository;
 
@@ -29,5 +32,9 @@ public class TableService {
 	
 	public void deleteById(int id) {
 		tableRepository.deleteById(id);
+	}
+	
+	public List<Table> findByRestaurant(Restaurant restaurant){
+		return tableRepository.findByRestaurant(restaurant);
 	}
 }
