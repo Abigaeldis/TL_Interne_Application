@@ -1,8 +1,6 @@
-package com.m2i.TL_Interne_Application.controllers;
+package com.m2i.TL_Interne_Application.entities;
 
 import java.util.List;
-
-import com.m2i.TL_Interne_Application.entities.PlatCommandeWrapper;
 
 import lombok.Data;
 
