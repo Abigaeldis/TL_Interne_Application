@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import com.m2i.TL_Interne_Application.entities.Commande;
 import com.m2i.TL_Interne_Application.entities.PlatCommande;
 import com.m2i.TL_Interne_Application.entities.PlatCommandeWrapper;
+import com.m2i.TL_Interne_Application.entities.Restaurant;
 import com.m2i.TL_Interne_Application.repositories.CommandeRepository;
 
 @Service
@@ -49,5 +50,9 @@ public class CommandeService {
         	resultat.add(new PlatCommandeWrapper(platCommande));
         }
         return resultat;
+    }
+    
+    public List<Commande> getByRestaurant(Restaurant restaurant) {
+    	return commandeRepo.findByTableRestaurant(restaurant);
     }
 }

@@ -19,6 +19,7 @@ import com.m2i.TL_Interne_Application.entities.AdditionWrapper;
 import com.m2i.TL_Interne_Application.entities.Commande;
 import com.m2i.TL_Interne_Application.entities.PlatCommandeWrapper;
 import com.m2i.TL_Interne_Application.services.CommandeService;
+import com.m2i.TL_Interne_Application.services.RestaurantService;
 
 @RestController
 @CrossOrigin
@@ -26,6 +27,8 @@ import com.m2i.TL_Interne_Application.services.CommandeService;
 public class CommandeController {
 	@Autowired
 	private CommandeService commandeService;
+	@Autowired
+	private RestaurantService restaurantService;
 
 	@GetMapping
 	public Iterable<Commande> getAll() {
@@ -37,6 +40,11 @@ public class CommandeController {
 		Commande commande = commandeService.getById(id);
 		return new ResponseEntity<>(commande, HttpStatus.OK);
 	}
+	
+	@GetMapping("/restaurant/{id}")
+	public ResponseEntity<List<Commande>> getByRestaurant(@PathVariable int id) {
+    	return new ResponseEntity<>(commandeService.getByRestaurant(restaurantService.getById(id)), HttpStatus.OK);
+    }
 	
 
 	 @GetMapping("/by-plat-commande-is-not-empty")
