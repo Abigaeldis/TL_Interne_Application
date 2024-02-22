@@ -12,7 +12,7 @@ public interface ReservationRepository extends CrudRepository<Reservation, Integ
 
 	List<Reservation> findByDateBetween(LocalDateTime startOfDay, LocalDateTime endOfDay);
 
-
+	List<Reservation> findByRestaurantAndStatut(Restaurant restaurant, String statut);
 
 	List<Reservation> findByRestaurant(Restaurant restaurant);
 

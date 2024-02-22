@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.m2i.TL_Interne_Application.entities.AdditionWrapper;
 import com.m2i.TL_Interne_Application.entities.Commande;
 import com.m2i.TL_Interne_Application.entities.PlatCommandeWrapper;
 import com.m2i.TL_Interne_Application.services.CommandeService;
