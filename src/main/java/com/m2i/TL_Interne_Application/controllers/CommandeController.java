@@ -1,5 +1,7 @@
 package com.m2i.TL_Interne_Application.controllers;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -33,6 +35,20 @@ public class CommandeController {
 		Commande commande = commandeService.getById(id);
 		return new ResponseEntity<>(commande, HttpStatus.OK);
 	}
+	
+
+	 @GetMapping("/by-plat-commande-is-not-empty")
+	    public ResponseEntity<List<Commande>> getByPlatCommandeIsNotEmpty() {
+	        List<Commande> commandes = commandeService.findByPlatCommandeIsNotEmpty();
+	        return new ResponseEntity<>(commandes, HttpStatus.OK);
+	    }
+
+	    @GetMapping("/total-price/{id}")
+	    public ResponseEntity<Double> getTotalPriceOfCommande(@PathVariable("id")int commandeId) {
+	        Commande commande = commandeService.getById(commandeId);
+	        double totalPrice = commandeService.getTotalPriceOfCommande(commande);
+	        return new ResponseEntity<>(totalPrice, HttpStatus.OK);
+	    }
 
 	@PostMapping
 	public ResponseEntity<Commande> insert(@RequestBody Commande commande) {
