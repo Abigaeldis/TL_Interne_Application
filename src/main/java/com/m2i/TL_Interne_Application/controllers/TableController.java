@@ -1,5 +1,7 @@
 package com.m2i.TL_Interne_Application.controllers;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -13,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.m2i.TL_Interne_Application.entities.Table;
+import com.m2i.TL_Interne_Application.services.RestaurantService;
 import com.m2i.TL_Interne_Application.services.TableService;
 
 @RestController
@@ -21,6 +24,8 @@ import com.m2i.TL_Interne_Application.services.TableService;
 public class TableController {
 	@Autowired
 	private TableService service;
+	@Autowired
+	private RestaurantService restaurantService;
 	
 	@GetMapping
 	public Iterable<Table> getAll(){
@@ -30,6 +35,11 @@ public class TableController {
 	@GetMapping(path = "/{id}")
 	public ResponseEntity<Table> getById(@PathVariable("id") int id){
 		return new ResponseEntity<>(service.getById(id), HttpStatus.OK);
+	}
+	
+	@GetMapping(path = "restaurant/{id}")
+	public ResponseEntity<List<Table>> getByRestaurant(@PathVariable("id") int id){
+		return new ResponseEntity<>(service.findByRestaurant(restaurantService.getById(id)), HttpStatus.OK);
 	}
 	
 	@PostMapping
