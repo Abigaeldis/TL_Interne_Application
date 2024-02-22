@@ -22,6 +22,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.m2i.TL_Interne_Application.entities.Reservation;
 import com.m2i.TL_Interne_Application.services.ReservationService;
+import com.m2i.TL_Interne_Application.services.RestaurantService;
 
 @RestController
 @CrossOrigin
@@ -29,6 +30,8 @@ import com.m2i.TL_Interne_Application.services.ReservationService;
 public class ReservationController {
 	@Autowired
 	private ReservationService service;
+	@Autowired
+	private RestaurantService restaurantService;
 
 	@GetMapping
 	public Iterable<Reservation> getAll() {
@@ -38,6 +41,11 @@ public class ReservationController {
 	@GetMapping(path = "/{id}")
 	public ResponseEntity<Reservation> getById(@PathVariable("id") int id) {
 		return new ResponseEntity<>(service.getById(id), HttpStatus.OK);
+	}
+	
+	@GetMapping(path = "restaurant/{id}")
+	public ResponseEntity<List<Reservation>> getByRestaurant(@PathVariable("id") int id){
+		return new ResponseEntity<>(service.findByRestaurant(restaurantService.getById(id)), HttpStatus.OK);
 	}
 
 	@GetMapping(path = "/par-date")
@@ -58,13 +66,13 @@ public class ReservationController {
 	    LocalDateTime endOfDay = date.atTime(LocalTime.MAX);
 	    
 	    List<Reservation> reservations = service.getAllReservationsByDate(startOfDay, endOfDay);
-	    List<Integer> tableNumbers = new ArrayList<>();
+	    List<Integer> numerosTables = new ArrayList<>();
 	    
 	    for (Reservation reservation : reservations) {
-	        tableNumbers.add(reservation.getTable().getNumTable());
+	    	numerosTables.add(reservation.getTable().getNumTable());
 	    }
 
-	    return new ResponseEntity<>(tableNumbers, HttpStatus.OK);
+	    return new ResponseEntity<>(numerosTables, HttpStatus.OK);
 	}
 	
 	 @GetMapping("/restaurants/{restaurantId}")
