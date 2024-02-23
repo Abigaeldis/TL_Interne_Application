@@ -46,7 +46,6 @@ public class CarteController {
 			e.printStackTrace();
 			return new ResponseEntity<>(e.getErreurs(), HttpStatus.CONFLICT);
 		}
-        
     }
 
     @PutMapping("/{id}")
