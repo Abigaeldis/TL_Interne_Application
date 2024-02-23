@@ -23,7 +23,7 @@ public class TableService {
 		return tableRepository.findById(id).get();
 	}
 
-	public void saveOrUpdate(Table table) throws BLLException {
+	public void save(Table table) throws BLLException {
 
 		BLLException blleException = new BLLException();
 
@@ -47,6 +47,35 @@ public class TableService {
 		
 		tableRepository.save(table);
 	}
+	
+	public void update(int id, Table table) throws BLLException {
+
+		BLLException blleException = new BLLException();
+		
+		table.setId(id);
+
+		List<String> valeursValides = Arrays.asList("Libre", "Occupée", "Occupee", "Réservée", "Reservee");
+
+		if (table.getCapaciteTable() < 1) {
+			blleException.ajouterErreur("La table doit pouvoir accueillir au moins 1 personne");
+		}
+
+		if (!valeursValides.contains(table.getEtat())) {
+			blleException.ajouterErreur("L'état de la table doit valoir : Libre, Occupée ou Réservée");
+		}
+
+		if (table.getRestaurant() == null) {
+			blleException.ajouterErreur("La table doit être associée à un restaurant");
+		}
+
+		if (blleException.getErreurs().size() > 0) {
+			throw blleException;
+		}
+		
+		tableRepository.save(table);
+	}
+	
+	
 
 	public void delete(Table table) {
 		tableRepository.delete(table);
