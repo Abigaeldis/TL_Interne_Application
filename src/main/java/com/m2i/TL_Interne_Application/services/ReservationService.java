@@ -17,8 +17,9 @@ import com.m2i.TL_Interne_Application.repositories.ReservationRepository;
 public class ReservationService {
 	@Autowired
 	private ReservationRepository reservationRepository;
-	
-	@Autowired HoraireService horaireService;
+
+	@Autowired
+	HoraireService horaireService;
 
 	public Iterable<Reservation> getAll() {
 		return reservationRepository.findAll();
@@ -28,29 +29,57 @@ public class ReservationService {
 		return reservationRepository.findById(id).get();
 	}
 
-	public void saveOrUpdate(Reservation reservation) throws BLLException {
-		
+	public void save(Reservation reservation) throws BLLException {
+
 		BLLException blleException = new BLLException();
 		if (reservation.getNbPersonne() < 1) {
 			blleException.ajouterErreur("Veuillez choisir un nombre de personnes supérieur ou égal à 1.");
 		}
-		
+
 		if (reservation.getDate().isBefore(LocalDateTime.now())) {
 			blleException.ajouterErreur("Veuillez choisir une date à venir et non passée.");
 		}
-		
-		if (!validateHoraire(reservation.getDate(),reservation.getRestaurant(),horaireService.findByRestaurant(reservation.getRestaurant()))) {
-			blleException.ajouterErreur("Veuillez choisir une date et un horaire de réservation parmi les horaires d'ouverture du magasin repris ci-dessous.");
+
+		if (!validateHoraire(reservation.getDate(), reservation.getRestaurant(),
+				horaireService.findByRestaurant(reservation.getRestaurant()))) {
+			blleException.ajouterErreur(
+					"Veuillez choisir une date et un horaire de réservation parmi les horaires d'ouverture du magasin repris ci-dessous.");
 		}
-		
+
 		if (blleException.getErreurs().size() > 0) {
 			throw blleException;
 		}
-		
+
 		reservationRepository.save(reservation);
 	}
 
-	
+	public void update(int id, Reservation reservation) throws BLLException {
+
+		BLLException blleException = new BLLException();
+		
+		reservation.setId(id);
+		
+		if (reservation.getNbPersonne() < 1) {
+			blleException.ajouterErreur("Veuillez choisir un nombre de personnes supérieur ou égal à 1.");
+		}
+
+		if (reservation.getDate().isBefore(LocalDateTime.now())) {
+			blleException.ajouterErreur("Veuillez choisir une date à venir et non passée.");
+		}
+
+		if (!validateHoraire(reservation.getDate(), reservation.getRestaurant(),
+				horaireService.findByRestaurant(reservation.getRestaurant()))) {
+			blleException.ajouterErreur(
+					"Veuillez choisir une date et un horaire de réservation parmi les horaires d'ouverture du magasin repris ci-dessous.");
+		}
+
+		if (blleException.getErreurs().size() > 0) {
+			throw blleException;
+		}
+
+		reservationRepository.save(reservation);
+	}
+
 	public void delete(Reservation reservation) {
 		reservationRepository.delete(reservation);
 	}
@@ -63,27 +92,26 @@ public class ReservationService {
 		return reservationRepository.findByDateBetween(startOfDay, endOfDay);
 	}
 
-
-	public List<Reservation> findByRestaurantAndStatut(Restaurant restaurant, String statut){
+	public List<Reservation> findByRestaurantAndStatut(Restaurant restaurant, String statut) {
 		return reservationRepository.findByRestaurantAndStatut(restaurant, statut);
-  }
-	
+	}
+
 	public List<Reservation> findByRestaurant(Restaurant restaurant) {
 		return reservationRepository.findByRestaurant(restaurant);
 	}
-	
+
 	public boolean validateHoraire(LocalDateTime date, Restaurant restaurant, List<Horaire> horaires) {
 		List<Horaire> horairesRestaurant = new ArrayList<>();
-		
+
 		for (Horaire current : horaires) {
 			if (current.getRestaurant().getNom().equals(restaurant.getNom())) {
 				horairesRestaurant.add(current);
 			}
 		}
-		
-		String[] jours = {"Lundi","Mardi","Mercredi","Jeudi","Vendredi","Samedi","Dimanche"};
+
+		String[] jours = { "Lundi", "Mardi", "Mercredi", "Jeudi", "Vendredi", "Samedi", "Dimanche" };
 		int jourInt = date.getDayOfWeek().getValue();
-		String jourReservation = jours[jourInt-1];
+		String jourReservation = jours[jourInt - 1];
 
 		LocalTime horaireReservation = date.toLocalTime();
 
