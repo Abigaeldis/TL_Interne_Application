@@ -7,7 +7,6 @@ import org.springframework.stereotype.Service;
 
 import com.m2i.TL_Interne_Application.entities.Carte;
 import com.m2i.TL_Interne_Application.repositories.CarteRepository;
-import com.m2i.TL_Interne_Application.services.BLLException;
 
 @Service
 public class CarteService {

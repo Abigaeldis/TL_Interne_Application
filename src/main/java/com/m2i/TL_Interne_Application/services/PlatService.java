@@ -15,53 +15,113 @@ import com.m2i.TL_Interne_Application.repositories.RestaurantRepository;
 @Service
 public class PlatService {
 
-    @Autowired
-    private PlatRepository platRepository;
-    
-    @Autowired
-    private RestaurantRepository restaurantRepository;
+	@Autowired
+	private PlatRepository platRepository;
 
-    public Iterable<Plat> getAllPlats() {
-        return platRepository.findAll();
-    }
+	@Autowired
+	private RestaurantRepository restaurantRepository;
 
-    public Optional<Plat> getPlatById(int id) {
-        return platRepository.findById(id);
-    }
-    
-    public List<Plat> getAllPlatsForRestaurant(int restaurantId) {
-        Optional<Restaurant> optionalRestaurant = restaurantRepository.findById(restaurantId);
-        if (optionalRestaurant.isEmpty()) {
-            return null;
-        }
-        Restaurant restaurant = optionalRestaurant.get();
-        
-        Carte carte = restaurant.getCarte();
-        if (carte == null) {
-            return null;
-        }
-        return platRepository.findByCarte(carte);
-    }
-    
-    public List<Plat> findByTypeLike(String type) {
-        return platRepository.findByTypeLike(type);
-    }
+	public Iterable<Plat> getAllPlats() {
+		return platRepository.findAll();
+	}
 
-    public Plat createPlat(Plat plat) {
-        return platRepository.save(plat);
-    }
+	public Optional<Plat> getPlatById(int id) {
+		return platRepository.findById(id);
+	}
 
-    public Plat updatePlat(int id, Plat updatedPlat) {
-        if (platRepository.existsById(id)) {
-            updatedPlat.setId(id);
-            return platRepository.save(updatedPlat);
-        } else {
-            return null;
-        }
-    }
+	public List<Plat> getAllPlatsForRestaurant(int restaurantId) {
+		Optional<Restaurant> optionalRestaurant = restaurantRepository.findById(restaurantId);
+		if (optionalRestaurant.isEmpty()) {
+			return null;
+		}
+		Restaurant restaurant = optionalRestaurant.get();
 
-    public void deletePlat(int id) {
-        platRepository.deleteById(id);
-    }
+		Carte carte = restaurant.getCarte();
+		if (carte == null) {
+			return null;
+		}
+		return platRepository.findByCarte(carte);
+	}
+
+	public List<Plat> findByTypeLike(String type) {
+		return platRepository.findByTypeLike(type);
+	}
+
+	public Plat createPlat(Plat plat) throws BLLException {
+
+		BLLException blleException = new BLLException();
+
+		if (plat.getNom().length() < 2) {
+			blleException.ajouterErreur("Le nom du plat doit faire au moins 2 caractères");
+		}
+
+		if (plat.getNom().length() > 30) {
+			blleException.ajouterErreur("Le nom du plat doit faire au maximum 30 caractères");
+		}
+
+		if (plat.getDescription().length() < 2) {
+			blleException.ajouterErreur("La description du plat doit faire au moins 2 caractères");
+		}
+
+		if (plat.getDescription().length() > 150) {
+			blleException.ajouterErreur("La description du plat doit faire au maximum 150 caractères");
+		}
+
+		if (plat.getType().length() < 2) {
+			blleException.ajouterErreur("La type doit du plat faire au moins 2 caractères");
+		}
+
+		if (plat.getType().length() > 15) {
+			blleException.ajouterErreur("La type du plat doit faire au maximum 15 caractères");
+		}
+
+		if (blleException.getErreurs().size() > 0) {
+			throw blleException;
+		}
+		return platRepository.save(plat);
+	}
+	
+	
+
+	public Plat updatePlat(int id, Plat updatedPlat) throws BLLException {
+		BLLException blleException = new BLLException();
+
+		updatedPlat.setId(id);
+
+		if (updatedPlat.getNom().length() < 2) {
+			blleException.ajouterErreur("Le nom du plat doit faire au moins 2 caractères");
+		}
+
+		if (updatedPlat.getNom().length() > 30) {
+			blleException.ajouterErreur("Le nom du plat doit faire au maximum 30 caractères");
+		}
+
+		if (updatedPlat.getDescription().length() < 2) {
+			blleException.ajouterErreur("La description du plat doit faire au moins 2 caractères");
+		}
+
+		if (updatedPlat.getDescription().length() > 150) {
+			blleException.ajouterErreur("La description du plat doit faire au maximum 150 caractères");
+		}
+
+		if (updatedPlat.getType().length() < 2) {
+			blleException.ajouterErreur("La type doit du plat faire au moins 2 caractères");
+		}
+
+		if (updatedPlat.getType().length() > 15) {
+			blleException.ajouterErreur("La type du plat doit faire au maximum 15 caractères");
+		}
+
+		if (blleException.getErreurs().size() > 0) {
+			throw blleException;
+		}
+
+		return platRepository.save(updatedPlat);
+
+	}
+
+	public void deletePlat(int id) {
+		platRepository.deleteById(id);
+	}
 
 }

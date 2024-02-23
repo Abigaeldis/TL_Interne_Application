@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.m2i.TL_Interne_Application.entities.Plat;
+import com.m2i.TL_Interne_Application.services.BLLException;
 import com.m2i.TL_Interne_Application.services.PlatService;
 
 @RestController
@@ -79,24 +80,34 @@ public class PlatController {
     }
     
     @PostMapping
-    public ResponseEntity<Plat> createPlat(@RequestBody Plat plat) {
-        Plat createdPlat = platService.createPlat(plat);
-        return new ResponseEntity<>(createdPlat, HttpStatus.CREATED);
+    public ResponseEntity<?> createPlat(@RequestBody Plat plat) {
+        Plat createdPlat;
+        try {
+        	createdPlat = platService.createPlat(plat);
+        	return new ResponseEntity<>(createdPlat, HttpStatus.CREATED);
+        } catch(BLLException e) {
+        	e.printStackTrace();
+        	return new ResponseEntity<>(e.getErreurs(), HttpStatus.CONFLICT);
+        	
+        }
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Plat> updatePlat(@PathVariable int id, @RequestBody Plat updatedPlat) {
-        Plat updated = platService.updatePlat(id, updatedPlat);
-        if (updated != null) {
-            return new ResponseEntity<>(updated, HttpStatus.OK);
-        } else {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    public ResponseEntity<?> updatePlat(@PathVariable int id, @RequestBody Plat updatedPlat) {
+        Plat updated;
+        try {
+        	updated = platService.updatePlat(id, updatedPlat);
+        	return new ResponseEntity<>(updated, HttpStatus.OK);
+        } catch(BLLException e){
+        	e.printStackTrace();
+        	return new ResponseEntity<>(e.getErreurs(), HttpStatus.CONFLICT);
         }
     }
+    
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deletePlat(@PathVariable int id) {
         platService.deletePlat(id);
-        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 }

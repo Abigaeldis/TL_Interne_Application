@@ -20,25 +20,24 @@ import com.m2i.TL_Interne_Application.services.CarteService;
 @RequestMapping("/cartes")
 public class CarteController {
 
-    @Autowired
-    private CarteService carteService;
+	@Autowired
+	private CarteService carteService;
 
-    @GetMapping
-    public ResponseEntity<Iterable<Carte>> getAllCartes() {
-    	Iterable<Carte> cartes = carteService.getAllCartes();
-        return new ResponseEntity<>(cartes, HttpStatus.OK);
-    }
+	@GetMapping
+	public ResponseEntity<Iterable<Carte>> getAllCartes() {
+		Iterable<Carte> cartes = carteService.getAllCartes();
+		return new ResponseEntity<>(cartes, HttpStatus.OK);
+	}
 
-    @GetMapping("/{id}")
-    public ResponseEntity<Carte> getCarteById(@PathVariable int id) {
-        return carteService.getCarteById(id)
-                .map(carte -> new ResponseEntity<>(carte, HttpStatus.OK))
-                .orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
-    }
+	@GetMapping("/{id}")
+	public ResponseEntity<Carte> getCarteById(@PathVariable int id) {
+		return carteService.getCarteById(id).map(carte -> new ResponseEntity<>(carte, HttpStatus.OK))
+				.orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
+	}
 
-    @PostMapping
-    public ResponseEntity<?> createCarte(@RequestBody Carte carte) {
-        Carte createdCarte;
+	@PostMapping
+	public ResponseEntity<?> createCarte(@RequestBody Carte carte) {
+		Carte createdCarte;
 		try {
 			createdCarte = carteService.createCarte(carte);
 			return new ResponseEntity<>(createdCarte, HttpStatus.CREATED);
@@ -46,22 +45,22 @@ public class CarteController {
 			e.printStackTrace();
 			return new ResponseEntity<>(e.getErreurs(), HttpStatus.CONFLICT);
 		}
-        
-    }
 
-    @PutMapping("/{id}")
-    public ResponseEntity<Carte> updateCarte(@PathVariable int id, @RequestBody Carte updatedCarte) {
-        Carte updated = carteService.updateCarte(id, updatedCarte);
-        if (updated != null) {
-            return new ResponseEntity<>(updated, HttpStatus.OK);
-        } else {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
-    }
+	}
 
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteCarte(@PathVariable int id) {
-        carteService.deleteCarte(id);
-        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-    }
+	@PutMapping("/{id}")
+	public ResponseEntity<Carte> updateCarte(@PathVariable int id, @RequestBody Carte updatedCarte) {
+		Carte updated = carteService.updateCarte(id, updatedCarte);
+		if (updated != null) {
+			return new ResponseEntity<>(updated, HttpStatus.OK);
+		} else {
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		}
+	}
+
+	@DeleteMapping("/{id}")
+	public ResponseEntity<Void> deleteCarte(@PathVariable int id) {
+		carteService.deleteCarte(id);
+		return new ResponseEntity<>(HttpStatus.OK);
+	}
 }
