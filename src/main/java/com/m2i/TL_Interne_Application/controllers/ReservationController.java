@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.m2i.TL_Interne_Application.entities.Reservation;
+import com.m2i.TL_Interne_Application.services.BLLException;
 import com.m2i.TL_Interne_Application.services.ReservationService;
 import com.m2i.TL_Interne_Application.services.RestaurantService;
 
@@ -76,10 +77,15 @@ public class ReservationController {
 	}
 	
 	
-	@PostMapping
-	public ResponseEntity<Void> save(@RequestBody Reservation reservation) {
-		service.saveOrUpdate(reservation);
-		return new ResponseEntity<>(HttpStatus.CREATED);
+	@PostMapping 
+	public ResponseEntity<?> save(@RequestBody Reservation reservation) {
+		try {
+			service.saveOrUpdate(reservation);
+			return new ResponseEntity<>(HttpStatus.CREATED);
+		} catch (BLLException e) {
+			e.printStackTrace();
+			return new ResponseEntity<>(e.getErreurs(), HttpStatus.CONFLICT);
+		}
 	}
 
 	@DeleteMapping(path = "/{id}")
