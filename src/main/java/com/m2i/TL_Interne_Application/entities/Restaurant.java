@@ -16,6 +16,7 @@ public class Restaurant {
 	private int id;
 	private String nom;
 	private String adresse;
+	private String description;
 	private String status;
 	@ManyToOne()
 	@JoinColumn(name = "id_carte")
