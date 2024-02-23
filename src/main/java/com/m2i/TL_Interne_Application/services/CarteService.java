@@ -41,7 +41,22 @@ public class CarteService {
         return carteRepository.save(carte);
     }
 
-    public Carte updateCarte(int id, Carte updatedCarte) {
+    public Carte updateCarte(int id, Carte updatedCarte) throws BLLException {
+		BLLException blleException = new BLLException();
+
+		if (updatedCarte.getNom().length() < 2) {
+			blleException.ajouterErreur("Le nom de la carte doit faire au moins 2 caractères");
+		}
+		
+		if (updatedCarte.getNom().length() > 30) {
+			blleException.ajouterErreur("Le nom de la carte doit faire au maximum 30 caractères");
+		}
+		
+		if (blleException.getErreurs().size() > 0) {
+			throw blleException;
+		}
+		
+    	
         if (carteRepository.existsById(id)) {
             updatedCarte.setId(id);
             return carteRepository.save(updatedCarte);

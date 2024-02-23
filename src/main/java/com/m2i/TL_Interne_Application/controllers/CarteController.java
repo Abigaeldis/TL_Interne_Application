@@ -50,13 +50,19 @@ public class CarteController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Carte> updateCarte(@PathVariable int id, @RequestBody Carte updatedCarte) {
-        Carte updated = carteService.updateCarte(id, updatedCarte);
-        if (updated != null) {
-            return new ResponseEntity<>(updated, HttpStatus.OK);
-        } else {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
+    public ResponseEntity<?> updateCarte(@PathVariable int id, @RequestBody Carte updatedCarte) {
+        Carte updated;
+		try {
+			updated = carteService.updateCarte(id, updatedCarte);
+	        if (updated != null) {
+	            return new ResponseEntity<>(updated, HttpStatus.OK);
+	        } else {
+	            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+	        }
+		} catch (BLLException e) {
+			e.printStackTrace();
+			return new ResponseEntity<>(e.getErreurs(), HttpStatus.CONFLICT);
+		}
     }
 
     @DeleteMapping("/{id}")
