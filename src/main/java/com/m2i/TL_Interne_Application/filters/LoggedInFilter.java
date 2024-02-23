@@ -3,10 +3,8 @@ package com.m2i.TL_Interne_Application.filters;
 import java.io.IOException;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
 
-import com.m2i.TL_Interne_Application.entities.Utilisateur;
 import com.m2i.TL_Interne_Application.services.UtilisateurService;
 
 import jakarta.servlet.Filter;

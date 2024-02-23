@@ -7,7 +7,6 @@ import org.springframework.stereotype.Service;
 
 import com.m2i.TL_Interne_Application.entities.Message;
 import com.m2i.TL_Interne_Application.entities.Restaurant;
-import com.m2i.TL_Interne_Application.entities.Table;
 import com.m2i.TL_Interne_Application.repositories.MessageRepository;
 
 @Service
