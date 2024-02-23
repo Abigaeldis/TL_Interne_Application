@@ -86,6 +86,8 @@ public class PlatService {
 	public Plat updatePlat(int id, Plat updatedPlat) throws BLLException {
 		
 		BLLException blleException = new BLLException();
+		
+		updatedPlat.setId(id);
 
 		if (updatedPlat.getNom().length() < 2) {
 			blleException.ajouterErreur("Le nom du plat doit faire au moins 2 caractères");
@@ -114,8 +116,7 @@ public class PlatService {
 		if (blleException.getErreurs().size() > 0) {
 			throw blleException;
 		}
-		updatedPlat.setId(id);
-
+		
 		return platRepository.save(updatedPlat);
 
 	}
