@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.m2i.TL_Interne_Application.entities.Carte;
+import com.m2i.TL_Interne_Application.services.BLLException;
 import com.m2i.TL_Interne_Application.services.CarteService;
 
 @RestController
@@ -36,9 +37,16 @@ public class CarteController {
     }
 
     @PostMapping
-    public ResponseEntity<Carte> createCarte(@RequestBody Carte carte) {
-        Carte createdCarte = carteService.createCarte(carte);
-        return new ResponseEntity<>(createdCarte, HttpStatus.CREATED);
+    public ResponseEntity<?> createCarte(@RequestBody Carte carte) {
+        Carte createdCarte;
+		try {
+			createdCarte = carteService.createCarte(carte);
+			return new ResponseEntity<>(createdCarte, HttpStatus.CREATED);
+		} catch (BLLException e) {
+			e.printStackTrace();
+			return new ResponseEntity<>(e.getErreurs(), HttpStatus.CONFLICT);
+		}
+        
     }
 
     @PutMapping("/{id}")
