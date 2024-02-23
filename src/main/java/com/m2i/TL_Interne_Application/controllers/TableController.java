@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.m2i.TL_Interne_Application.entities.Restaurant;
 import com.m2i.TL_Interne_Application.entities.Table;
+import com.m2i.TL_Interne_Application.services.BLLException;
 import com.m2i.TL_Interne_Application.services.RestaurantService;
 import com.m2i.TL_Interne_Application.services.TableService;
 
@@ -28,42 +29,48 @@ public class TableController {
 	private TableService service;
 	@Autowired
 	private RestaurantService restaurantService;
-	
+
 	@GetMapping
-	public Iterable<Table> getAll(){
+	public Iterable<Table> getAll() {
 		return service.getAll();
 	}
-	
+
 	@GetMapping(path = "/{id}")
-	public ResponseEntity<Table> getById(@PathVariable("id") int id){
+	public ResponseEntity<Table> getById(@PathVariable("id") int id) {
 		return new ResponseEntity<>(service.getById(id), HttpStatus.OK);
 	}
-	
+
 	@GetMapping(path = "/restaurant/{id}")
-	public ResponseEntity<List<Table>> getByRestaurant(@PathVariable("id") int id){
+	public ResponseEntity<List<Table>> getByRestaurant(@PathVariable("id") int id) {
 		return new ResponseEntity<>(service.findByRestaurant(restaurantService.getById(id)), HttpStatus.OK);
 	}
-	
+
 	@PostMapping
-	public ResponseEntity<Void> save(@RequestBody Table table){
-		service.saveOrUpdate(table);
-		return new ResponseEntity<>(HttpStatus.CREATED);
+	public ResponseEntity<?> save(@RequestBody Table table) {
+		try {
+			service.saveOrUpdate(table);
+			return new ResponseEntity<>(HttpStatus.CREATED);
+		} catch (BLLException e) {
+			e.printStackTrace();
+			return new ResponseEntity<>(e.getErreurs(), HttpStatus.CONFLICT);
+		}
 	}
-	
+
 	@DeleteMapping(path = "/{id}")
-	public ResponseEntity<Void> deleteById(@PathVariable("id") int id){
+	public ResponseEntity<Void> deleteById(@PathVariable("id") int id) {
 		service.deleteById(id);
 		return new ResponseEntity<>(HttpStatus.OK);
 	}
-	
+
 	@DeleteMapping
-	public ResponseEntity<Void> deleteById(@RequestBody Table table){
+	public ResponseEntity<Void> deleteById(@RequestBody Table table) {
 		service.delete(table);
 		return new ResponseEntity<>(HttpStatus.OK);
 	}
-	
+
 	@GetMapping(path = "/restaurant/{id}/etat")
-	public ResponseEntity<List<Table>> getByRestaurantAndStatut(@PathVariable("id") int id, @RequestParam("etat") String etat){
+	public ResponseEntity<List<Table>> getByRestaurantAndStatut(@PathVariable("id") int id,
+			@RequestParam("etat") String etat) {
 		Restaurant restaurant = restaurantService.getById(id);
 		return new ResponseEntity<>(service.findByRestaurantAndEtat(restaurant, etat), HttpStatus.OK);
 	}
