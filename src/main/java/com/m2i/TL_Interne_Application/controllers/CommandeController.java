@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.m2i.TL_Interne_Application.entities.AdditionWrapper;
 import com.m2i.TL_Interne_Application.entities.Commande;
 import com.m2i.TL_Interne_Application.entities.PlatCommandeWrapper;
+import com.m2i.TL_Interne_Application.services.BLLException;
 import com.m2i.TL_Interne_Application.services.CommandeService;
 import com.m2i.TL_Interne_Application.services.RestaurantService;
 
@@ -38,13 +39,24 @@ public class CommandeController {
 	@GetMapping("/{id}")
 	public ResponseEntity<Commande> getById(@PathVariable int id) {
 		Commande commande = commandeService.getById(id);
-		return new ResponseEntity<>(commande, HttpStatus.OK);
+		if (commande != null) {
+			return new ResponseEntity<>(commande, HttpStatus.OK);
+		}
+		else {
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		}
 	}
 	
 	@GetMapping("/restaurant/{id}")
 	public ResponseEntity<List<Commande>> getByRestaurant(@PathVariable int id) {
-    	return new ResponseEntity<>(commandeService.getByRestaurant(restaurantService.getById(id)), HttpStatus.OK);
-    }
+		List<Commande> commandes = commandeService.getByRestaurant(restaurantService.getById(id));
+    	if (commandes != null) {
+			return new ResponseEntity<>(commandes, HttpStatus.OK);
+		}
+		else {
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		}
+	}
 	
 
 	 @GetMapping("/by-plat-commande-is-not-empty")
@@ -53,41 +65,40 @@ public class CommandeController {
         return new ResponseEntity<>(commandes, HttpStatus.OK);
     }
 
-//    @GetMapping("/total-price/{id}")
-//    public ResponseEntity<Double> getTotalPriceOfCommande(@PathVariable("id")int commandeId) {
-//        Commande commande = commandeService.getById(commandeId);
-//        double totalPrice = commandeService.getTotalPriceOfCommande(commande);
-//        return new ResponseEntity<>(totalPrice, HttpStatus.OK);
-//    }
-//    
-//    @GetMapping("/listeAddition/{id}")
-//    public ResponseEntity<List<PlatCommandeWrapper>> getListeAddition(@PathVariable("id") int commandeId) {
-//        Commande commande = commandeService.getById(commandeId);
-//       List<PlatCommandeWrapper> liste_plats = commandeService.getListeAddition(commande);
-//       return new ResponseEntity<>(liste_plats, HttpStatus.OK);
-//   }
-
     @GetMapping("/addition/{id}")
-    public ResponseEntity<AdditionWrapper> getAddition(@PathVariable("id") int commandeId) {
+    public ResponseEntity<?> getAddition(@PathVariable("id") int commandeId) {
         Commande commande = commandeService.getById(commandeId);
-        List<PlatCommandeWrapper> listePlats = commandeService.getListeAddition(commande);
-        float sommeTotale = commandeService.getTotalPriceOfCommande(commande);
-        AdditionWrapper addition = new AdditionWrapper(listePlats, sommeTotale);
-        System.out.println(addition);
-        return new ResponseEntity<>(addition, HttpStatus.OK);
+        List<PlatCommandeWrapper> listePlats;
+        float sommeTotale = (float) 0.0;
+		try {
+			listePlats = commandeService.getListeAddition(commande);
+			sommeTotale = commandeService.getTotalPriceOfCommande(commande);
+			AdditionWrapper addition = new AdditionWrapper(listePlats, sommeTotale);
+	        return new ResponseEntity<>(addition, HttpStatus.OK);
+		} catch (BLLException e) {
+			return new ResponseEntity<>(e.getErreurs(), HttpStatus.CONFLICT);
+		}
     }
     
 	@PostMapping
-	public ResponseEntity<Commande> insert(@RequestBody Commande commande) {
-		commandeService.save(commande);
-		return new ResponseEntity<>(commande, HttpStatus.CREATED);
+	public ResponseEntity<?> insert(@RequestBody Commande commande) {
+		try {
+			commandeService.save(commande);
+			return new ResponseEntity<>(commande, HttpStatus.CREATED);
+		} catch (BLLException e) {
+			return new ResponseEntity<>(e.getErreurs(), HttpStatus.CONFLICT);
+		}
 	}
 
 	@PutMapping("/{id}")
-	public ResponseEntity<Void> update(@PathVariable("id") int id, @RequestBody Commande commande) {
+	public ResponseEntity<?> update(@PathVariable("id") int id, @RequestBody Commande commande) {
 		commande.setId(id);
-		commandeService.save(commande);
-		return new ResponseEntity<>(HttpStatus.OK);
+		try {
+			commandeService.save(commande);
+			return new ResponseEntity<>(HttpStatus.CREATED);
+		} catch (BLLException e) {
+			return new ResponseEntity<>(e.getErreurs(), HttpStatus.CONFLICT);
+		}
 	}
 
 	@DeleteMapping("/{id}")

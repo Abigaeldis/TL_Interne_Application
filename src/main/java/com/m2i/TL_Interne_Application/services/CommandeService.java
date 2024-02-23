@@ -1,6 +1,8 @@
 package com.m2i.TL_Interne_Application.services;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,7 +26,31 @@ public class CommandeService {
 		return commandeRepo.findById(id).get(); 
 		}
 	
-	public void save(Commande commande) {
+	public void save(Commande commande) throws BLLException {
+		BLLException blleException = new BLLException();
+		System.out.println(commande.getDate().toLocalDate());
+		System.out.println(LocalDate.now());
+		
+		if (!commande.getDate().toLocalDate().isEqual(LocalDate.now())) {
+			blleException.ajouterErreur("La date de la commande doit être à aujourd'hui.");
+		}
+		
+		if (commande.getPlatCommande().isEmpty()) {
+			blleException.ajouterErreur("Vous ne pouvez pas enregistrer une commande vide.");
+		}
+		
+		if (commande.getTable() == null) {
+			blleException.ajouterErreur("Veuillez affecter la commande à une table.");
+		}
+
+		List<String> valeursValides = Arrays.asList("LANCEE", "PRETE", "SERVIE", "Réservée", "Reservee");
+		if (!valeursValides.contains(commande.getStatut())) {
+			blleException.ajouterErreur("L'état de la commande doit valoir : lancée, prête, servie ou réglée");
+		}
+		
+		if (blleException.getErreurs().size() > 0) {
+			throw blleException;
+		}
 		commandeRepo.save(commande); 
 		}
 	
@@ -36,20 +62,28 @@ public class CommandeService {
         return commandeRepo.findByPlatCommandeIsNotEmpty();
     }
 
-    public float getTotalPriceOfCommande(Commande commande) {
+    public float getTotalPriceOfCommande(Commande commande) throws BLLException {
     	float totalPrice = (float) 0.0;
         for (PlatCommande platCommande : commande.getPlatCommande()) {
             totalPrice += platCommande.getPlat().getPrix() * platCommande.getNbPlat();
         }
-        return totalPrice;
+        if (totalPrice != 0) {
+        	return totalPrice;
+        } else {
+        	throw new BLLException("La commande sélectionnée est vide");
+        }
     }
     
-    public List<PlatCommandeWrapper> getListeAddition(Commande commande) {
+    public List<PlatCommandeWrapper> getListeAddition(Commande commande) throws BLLException {
         List<PlatCommandeWrapper> resultat = new ArrayList<>();
         for (PlatCommande platCommande : commande.getPlatCommande()) {
         	resultat.add(new PlatCommandeWrapper(platCommande));
         }
-        return resultat;
+        if (!resultat.isEmpty()) {
+        	return resultat;
+        } else {
+        	throw new BLLException("La commande sélectionnée est vide");
+        }
     }
     
     public List<Commande> getByRestaurant(Restaurant restaurant) {

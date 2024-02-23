@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.m2i.TL_Interne_Application.entities.Horaire;
+import com.m2i.TL_Interne_Application.services.BLLException;
 import com.m2i.TL_Interne_Application.services.HoraireService;
 import com.m2i.TL_Interne_Application.services.RestaurantService;
 
@@ -45,16 +46,24 @@ public class HoraireController {
 	}
 	
 	@PostMapping
-	public ResponseEntity<Horaire> insert(@RequestBody Horaire horaire) {
-		horaireService.save(horaire);
-		return new ResponseEntity<>(horaire, HttpStatus.CREATED);
+	public ResponseEntity<?> insert(@RequestBody Horaire horaire) {
+		try {
+			horaireService.save(horaire);
+			return new ResponseEntity<>(horaire, HttpStatus.CREATED);
+		} catch (BLLException e) {
+			return new ResponseEntity<>(e.getErreurs(), HttpStatus.CONFLICT);
+		}
 	}
 
 	@PutMapping("/{id}")
-	public ResponseEntity<Void> update(@PathVariable("id") int id, @RequestBody Horaire horaire) {
+	public ResponseEntity<?> update(@PathVariable("id") int id, @RequestBody Horaire horaire) {
 		horaire.setId(id);
-		horaireService.save(horaire);
-		return new ResponseEntity<>(HttpStatus.OK);
+		try {
+			horaireService.save(horaire);
+			return new ResponseEntity<>(horaire, HttpStatus.CREATED);
+		} catch (BLLException e) {
+			return new ResponseEntity<>(e.getErreurs(), HttpStatus.CONFLICT);
+		}
 	}
 
 	@DeleteMapping("/{id}")
