@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.m2i.TL_Interne_Application.entities.Restaurant;
+import com.m2i.TL_Interne_Application.services.BLLException;
 import com.m2i.TL_Interne_Application.services.RestaurantService;
 
 @RestController
@@ -32,8 +33,14 @@ public class RestaurantController {
 	}
 	
 	@PostMapping
-	public ResponseEntity<Void> save(@RequestBody Restaurant restaurant){
-		service.saveOrUpdate(restaurant);
-		return new ResponseEntity<>(HttpStatus.CREATED);
+	public ResponseEntity<?> save(@RequestBody Restaurant restaurant){
+		try {
+			service.saveOrUpdate(restaurant);
+			return new ResponseEntity<>(HttpStatus.CREATED);
+		} catch(BLLException e) {
+			e.printStackTrace();
+			return new ResponseEntity<>(e.getErreurs(), HttpStatus.CONFLICT);
+		}
+		
 	}
 }
