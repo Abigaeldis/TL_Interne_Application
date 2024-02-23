@@ -3,6 +3,7 @@ package com.m2i.TL_Interne_Application.entities;
 import java.time.LocalDateTime;
 import java.util.List;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -30,8 +31,7 @@ public class Commande {
 	@JoinColumn(name = "id_utilisateur")
 	private Utilisateur utilisateur;
 	
-	@OneToMany
+	@OneToMany(cascade = CascadeType.ALL)
 	@JoinColumn(name = "id_commande")
 	private List<PlatCommande> platCommande;
-
 }

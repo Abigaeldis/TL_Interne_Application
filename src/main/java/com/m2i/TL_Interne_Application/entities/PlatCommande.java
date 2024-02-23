@@ -23,7 +23,5 @@ public class PlatCommande {
 	@ManyToOne
 	@JoinColumn(name = "id_plat")
 	private Plat plat;
-
-
 }
 

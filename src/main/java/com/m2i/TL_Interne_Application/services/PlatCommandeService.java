@@ -31,7 +31,6 @@ public class PlatCommandeService {
             updatedPlatCommande.setId(id);
             return platCommandeRepository.save(updatedPlatCommande);
         } else {
-            // Handle error, throw exception, etc.
             return null;
         }
     }
