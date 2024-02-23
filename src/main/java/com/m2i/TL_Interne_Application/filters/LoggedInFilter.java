@@ -22,18 +22,19 @@ public class LoggedInFilter implements Filter {
 	@Autowired private UtilisateurService service;
 	
 	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
-		HttpServletRequest httpReq = (HttpServletRequest) request;
-		HttpServletResponse httpResp = (HttpServletResponse) response;
-		
-		/*
-		 * A ENLEVER!!!!!!!!!!!!
-		 */
-		chain.doFilter(request, response);
+			HttpServletRequest httpReq = (HttpServletRequest) request;
+			HttpServletResponse httpResp = (HttpServletResponse) response;
+			
+			/*
+			 * A ENLEVER!!!!!!!!!!!!
+			 */
+			chain.doFilter(request, response);
 		
 		/*
 		 * Si on essaie d'accéder au endpoint de login, on autorise l'accès
 		 * sans vérifier d'autre condition
 		 */
+
 //		if ("/login".equals(httpReq.getServletPath())
 //				|| "OPTIONS".equals(httpReq.getMethod())) {
 //			chain.doFilter(request, response);
