@@ -1,5 +1,6 @@
 package com.m2i.TL_Interne_Application.services;
 
+import java.util.Arrays;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,5 +37,16 @@ public class TableService {
 	
 	public List<Table> findByRestaurant(Restaurant restaurant){
 		return tableRepository.findByRestaurant(restaurant);
+	}
+	   
+	public List<Table> findByRestaurantAndEtat(Restaurant restaurant, String etat) {
+	    List<String> validValues = Arrays.asList("Libre", "Occupée", "Occupee", "Réservée", "Reservee");
+
+	    if (!validValues.contains(etat)) {
+	        return null;
+	    } else {
+	        System.out.println("etat ok");
+	        return tableRepository.findByRestaurantAndEtat(restaurant, etat);
+	    }
 	}
 }

@@ -26,34 +26,39 @@ public class LoggedInFilter implements Filter {
 		HttpServletResponse httpResp = (HttpServletResponse) response;
 		
 		/*
+		 * A ENLEVER!!!!!!!!!!!!
+		 */
+		chain.doFilter(request, response);
+		
+		/*
 		 * Si on essaie d'accéder au endpoint de login, on autorise l'accès
 		 * sans vérifier d'autre condition
 		 */
-		if ("/login".equals(httpReq.getServletPath())
-				|| "OPTIONS".equals(httpReq.getMethod())) {
-			chain.doFilter(request, response);
-			return;
-		}
-
-		/*
-		 * Si le token n'est pas renseigné, on interdit l'accès
-		 */
-		String auth = httpReq.getHeader("token");
-		if (auth == null || auth.isBlank()) {
-			httpResp.sendError(HttpStatus.UNAUTHORIZED.value());
-			return;
-		}
-		
-		/*
-		 * Si le token est renseigné mais ne correspond à aucun user
-		 * on interdit l'accès
-		 * Sinon, on autorise l'accès
-		 */
-		Utilisateur user = service.getByToken(auth);
-		if (user == null) {
-			httpResp.sendError(HttpStatus.UNAUTHORIZED.value());
-		} else {
-			chain.doFilter(request, response);
-		}
+//		if ("/login".equals(httpReq.getServletPath())
+//				|| "OPTIONS".equals(httpReq.getMethod())) {
+//			chain.doFilter(request, response);
+//			return;
+//		}
+//
+//		/*
+//		 * Si le token n'est pas renseigné, on interdit l'accès
+//		 */
+//		String auth = httpReq.getHeader("token");
+//		if (auth == null || auth.isBlank()) {
+//			httpResp.sendError(HttpStatus.UNAUTHORIZED.value());
+//			return;
+//		}
+//		
+//		/*
+//		 * Si le token est renseigné mais ne correspond à aucun user
+//		 * on interdit l'accès
+//		 * Sinon, on autorise l'accès
+//		 */
+//		Utilisateur user = service.getByToken(auth);
+//		if (user == null) {
+//			httpResp.sendError(HttpStatus.UNAUTHORIZED.value());
+//		} else {
+//			chain.doFilter(request, response);
+//		}
 	}
 }

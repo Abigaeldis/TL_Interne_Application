@@ -12,8 +12,10 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.m2i.TL_Interne_Application.entities.Restaurant;
 import com.m2i.TL_Interne_Application.entities.Table;
 import com.m2i.TL_Interne_Application.services.RestaurantService;
 import com.m2i.TL_Interne_Application.services.TableService;
@@ -37,7 +39,7 @@ public class TableController {
 		return new ResponseEntity<>(service.getById(id), HttpStatus.OK);
 	}
 	
-	@GetMapping(path = "restaurant/{id}")
+	@GetMapping(path = "/restaurant/{id}")
 	public ResponseEntity<List<Table>> getByRestaurant(@PathVariable("id") int id){
 		return new ResponseEntity<>(service.findByRestaurant(restaurantService.getById(id)), HttpStatus.OK);
 	}
@@ -58,5 +60,11 @@ public class TableController {
 	public ResponseEntity<Void> deleteById(@RequestBody Table table){
 		service.delete(table);
 		return new ResponseEntity<>(HttpStatus.OK);
+	}
+	
+	@GetMapping(path = "/restaurant/{id}/etat")
+	public ResponseEntity<List<Table>> getByRestaurantAndStatut(@PathVariable("id") int id, @RequestParam("etat") String etat){
+		Restaurant restaurant = restaurantService.getById(id);
+		return new ResponseEntity<>(service.findByRestaurantAndEtat(restaurant, etat), HttpStatus.OK);
 	}
 }
