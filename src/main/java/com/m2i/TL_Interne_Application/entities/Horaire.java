@@ -2,6 +2,7 @@ package com.m2i.TL_Interne_Application.entities;
 
 import java.time.LocalTime;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -17,7 +18,9 @@ public class Horaire {
 	@Id @GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
 	private String jour;
+	@Column(name = "heurededebut")
 	private LocalTime heureDeDebut;
+	@Column(name = "heuredefin")
 	private LocalTime heureDeFin;
 	private String creneau;
 	@ManyToOne
