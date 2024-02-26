@@ -34,5 +34,4 @@ public class Commande {
 
 	@OneToMany(mappedBy = "commande", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	private List<PlatCommande> platCommande;
-
 }

@@ -26,7 +26,7 @@ public class CommandeService {
 		return commandeRepo.findById(id).get(); 
 		}
 	
-	public void save(Commande commande) throws BLLException {
+	public Commande save(Commande commande) throws BLLException {
 		BLLException blleException = new BLLException();
 		System.out.println(commande.getDate().toLocalDate());
 		System.out.println(LocalDate.now());
@@ -43,8 +43,8 @@ public class CommandeService {
 			blleException.ajouterErreur("Veuillez affecter la commande à une table.");
 		}
 
-		List<String> valeursValides = Arrays.asList("LANCEE", "PRETE", "SERVIE", "Réservée", "Reservee");
-		if (!valeursValides.contains(commande.getStatut())) {
+		List<String> valeursValides = Arrays.asList("LANCEE", "PRETE", "SERVIE", "REGLEE");
+		if (!valeursValides.contains(commande.getStatut().toUpperCase())) {
 			blleException.ajouterErreur("L'état de la commande doit valoir : lancée, prête, servie ou réglée");
 		}
 		
@@ -57,7 +57,8 @@ public class CommandeService {
 		}
 		
 		commandeRepo.save(commande); 
-		}
+		return commande;
+	}
 	
 	public void delete(int id) { 
 		commandeRepo.deleteById(id); 

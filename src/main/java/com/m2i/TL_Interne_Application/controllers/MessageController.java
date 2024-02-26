@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.m2i.TL_Interne_Application.entities.Message;
+import com.m2i.TL_Interne_Application.services.BLLException;
 import com.m2i.TL_Interne_Application.services.MessageService;
 
 @RestController
@@ -35,16 +36,24 @@ public class MessageController {
 	}
 
 	@PostMapping
-	public ResponseEntity<Message> insert(@RequestBody Message message) {
-		messageService.save(message);
-		return new ResponseEntity<>(message, HttpStatus.CREATED);
+	public ResponseEntity<?> insert(@RequestBody Message message) {
+		try {
+			messageService.save(message);
+			return new ResponseEntity<>(message, HttpStatus.CREATED);
+		} catch (BLLException e) {
+			return new ResponseEntity<>(e.getErreurs(), HttpStatus.CONFLICT);
+		}
 	}
 
 	@PutMapping("/{id}")
-	public ResponseEntity<Void> update(@PathVariable("id") int id, @RequestBody Message message) {
+	public ResponseEntity<?> update(@PathVariable("id") int id, @RequestBody Message message) {
 		message.setId(id);
-		messageService.save(message);
-		return new ResponseEntity<>(HttpStatus.OK);
+		try {
+			messageService.save(message);
+			return new ResponseEntity<>(message, HttpStatus.CREATED);
+		} catch (BLLException e) {
+			return new ResponseEntity<>(e.getErreurs(), HttpStatus.CONFLICT);
+		}
 	}
 
 	@DeleteMapping("/{id}")
