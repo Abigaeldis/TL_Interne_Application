@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -21,26 +22,37 @@ import com.m2i.TL_Interne_Application.services.RestaurantService;
 public class RestaurantController {
 	@Autowired
 	private RestaurantService service;
-	
+
 	@GetMapping
-	public Iterable<Restaurant> getAll(){
+	public Iterable<Restaurant> getAll() {
 		return service.getAll();
 	}
-	
+
 	@GetMapping(path = "/{id}")
-	public ResponseEntity<Restaurant> getById(@PathVariable("id") int id){
+	public ResponseEntity<Restaurant> getById(@PathVariable("id") int id) {
 		return new ResponseEntity<>(service.getById(id), HttpStatus.OK);
 	}
-	
+
 	@PostMapping
 	public ResponseEntity<?> save(@RequestBody Restaurant restaurant){
 		try {
-			service.saveOrUpdate(restaurant);
+			service.save(restaurant);
 			return new ResponseEntity<>(HttpStatus.CREATED);
 		} catch(BLLException e) {
 			e.printStackTrace();
 			return new ResponseEntity<>(e.getErreurs(), HttpStatus.CONFLICT);
 		}
-		
+	}
+
+		@PutMapping("/{id}")
+	public ResponseEntity<?> update(@PathVariable("id") int id, @RequestBody Restaurant restaurant) {
+		try {
+			service.update(id, restaurant);
+			return new ResponseEntity<>(HttpStatus.OK);
+		} catch (BLLException e) {
+			e.printStackTrace();
+			return new ResponseEntity<>(e.getErreurs(), HttpStatus.CONFLICT);
+		}
+
 	}
 }

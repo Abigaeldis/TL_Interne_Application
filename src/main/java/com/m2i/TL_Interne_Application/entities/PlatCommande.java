@@ -1,5 +1,8 @@
 package com.m2i.TL_Interne_Application.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -23,5 +26,10 @@ public class PlatCommande {
 	@ManyToOne
 	@JoinColumn(name = "id_plat")
 	private Plat plat;
+	
+	@JsonIgnore
+	@ManyToOne(cascade = CascadeType.ALL)
+	@JoinColumn(name = "id_commande")
+	private Commande commande;
 }
 

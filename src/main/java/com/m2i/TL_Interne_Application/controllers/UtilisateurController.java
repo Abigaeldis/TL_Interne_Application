@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.m2i.TL_Interne_Application.entities.Utilisateur;
+import com.m2i.TL_Interne_Application.services.BLLException;
 import com.m2i.TL_Interne_Application.services.UtilisateurService;
 
 @RestController
@@ -35,16 +36,25 @@ public class UtilisateurController {
 	}
 
 	@PostMapping
-	public ResponseEntity<Utilisateur> insert(@RequestBody Utilisateur utilisateur) {
-		utilisateurService.save(utilisateur);
-		return new ResponseEntity<>(utilisateur, HttpStatus.CREATED);
+	public ResponseEntity<?> insert(@RequestBody Utilisateur utilisateur) {
+		try {
+			utilisateurService.save(utilisateur);
+			return new ResponseEntity<>(utilisateur, HttpStatus.CREATED);
+		} catch (BLLException e) {
+			e.printStackTrace();
+			return new ResponseEntity<>(e.getErreurs(), HttpStatus.CONFLICT);
+		}
 	}
 
 	@PutMapping("/{id}")
-	public ResponseEntity<Void> update(@PathVariable("id") int id, @RequestBody Utilisateur utilisateur) {
-		utilisateur.setId(id);
-		utilisateurService.save(utilisateur);
-		return new ResponseEntity<>(HttpStatus.OK);
+	public ResponseEntity<?> update(@PathVariable("id") int id, @RequestBody Utilisateur utilisateur) {
+		try {
+			utilisateurService.update(id, utilisateur);
+			return new ResponseEntity<>(utilisateur, HttpStatus.OK);
+		} catch (BLLException e) {
+			e.printStackTrace();
+			return new ResponseEntity<>(e.getErreurs(), HttpStatus.CONFLICT);
+		}
 	}
 
 	@DeleteMapping("/{id}")

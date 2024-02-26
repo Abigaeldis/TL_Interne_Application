@@ -5,6 +5,7 @@ import java.util.List;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -23,15 +24,14 @@ public class Commande {
 	private String statut;
 	private LocalDateTime date;
 	
-	@ManyToOne
+	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "id_table")
 	private Table table;
 
-	@ManyToOne
+	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "id_utilisateur")
 	private Utilisateur utilisateur;
-	
-	@OneToMany(cascade = CascadeType.ALL)
-	@JoinColumn(name = "id_commande")
+
+	@OneToMany(mappedBy = "commande", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	private List<PlatCommande> platCommande;
 }
