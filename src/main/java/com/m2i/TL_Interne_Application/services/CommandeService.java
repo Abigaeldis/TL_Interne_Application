@@ -51,6 +51,11 @@ public class CommandeService {
 		if (blleException.getErreurs().size() > 0) {
 			throw blleException;
 		}
+		
+		for (PlatCommande current : commande.getPlatCommande()) {
+			current.setCommande(commande);
+		}
+		
 		commandeRepo.save(commande); 
 		}
 	
