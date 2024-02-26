@@ -1,19 +1,27 @@
 package com.m2i.TL_Interne_Application.services;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.m2i.TL_Interne_Application.entities.Reservation;
 import com.m2i.TL_Interne_Application.entities.Restaurant;
 import com.m2i.TL_Interne_Application.entities.Table;
+import com.m2i.TL_Interne_Application.repositories.ReservationRepository;
 import com.m2i.TL_Interne_Application.repositories.TableRepository;
 
 @Service
 public class TableService {
 	@Autowired
 	private TableRepository tableRepository;
+	@Autowired
+	private ReservationRepository reservationRepository;
 
 	public Iterable<Table> getAll() {
 		return tableRepository.findAll();
@@ -76,7 +84,6 @@ public class TableService {
 	}
 	
 	
-
 	public void delete(Table table) {
 		tableRepository.delete(table);
 	}
@@ -95,8 +102,34 @@ public class TableService {
 		if (!validValues.contains(etat)) {
 			return null;
 		} else {
-			System.out.println("etat ok");
 			return tableRepository.findByRestaurantAndEtat(restaurant, etat);
 		}
+	}
+	
+	public List<Table> findTablesEligiblesReservation(Restaurant restaurant, LocalDateTime date, int nbPersonnes) {
+		List<Table> tablesResto = tableRepository.findByRestaurantAndCapaciteTableGreaterThanEqual(restaurant, nbPersonnes);
+		List<Table> tablesDispo = new ArrayList<>();
+		LocalDateTime startOfDay = date.toLocalDate().atStartOfDay();
+		LocalDateTime endOfDay = date.toLocalDate().atTime(LocalTime.MAX);
+		LocalTime heureDemandeResa = date.toLocalTime();
+		List<Reservation> reservationsRestoACetteDate = reservationRepository.findByDateBetweenOrderByDate(startOfDay, endOfDay);
+		System.out.println("Demande résa : " + heureDemandeResa);
+		
+		//On regarde les tables occupées en fonction des résa dans ce resto à cette date
+		List<Table> tablesOccupees = new ArrayList<>();
+		for (Reservation reservation : reservationsRestoACetteDate) {
+			LocalTime heureResa = reservation.getDate().toLocalTime();
+			if (heureDemandeResa.isAfter(heureResa) && heureDemandeResa.isBefore(heureResa.plusMinutes(150))) {
+				tablesOccupees.add(reservation.getTable());
+			}
+		}
+		
+		//On récupère les tables éligibles à la résa
+		for (Table table : tablesResto) {
+			if (!tablesOccupees.contains(table)) {
+				tablesDispo.add(table);
+			}
+		}
+		return tablesDispo;
 	}
 }
