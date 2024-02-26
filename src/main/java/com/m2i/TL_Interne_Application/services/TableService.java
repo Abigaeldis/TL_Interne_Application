@@ -54,14 +54,14 @@ public class TableService {
 		
 		table.setId(id);
 
-		List<String> valeursValides = Arrays.asList("Libre", "Occupée", "Occupee", "Réservée", "Reservee");
+		List<String> valeursValides = Arrays.asList("Libre", "libre", "Réservée", "reservee", "Présent", "present");
 
 		if (table.getCapaciteTable() < 1) {
 			blleException.ajouterErreur("La table doit pouvoir accueillir au moins 1 personne");
 		}
 
 		if (!valeursValides.contains(table.getEtat())) {
-			blleException.ajouterErreur("L'état de la table doit valoir : Libre, Occupée ou Réservée");
+			blleException.ajouterErreur("L'état de la table doit valoir : Libre, Réservée ou Présent");
 		}
 
 		if (table.getRestaurant() == null) {
