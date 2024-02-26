@@ -57,10 +57,11 @@ public class HoraireController {
 
 	@PutMapping("/{id}")
 	public ResponseEntity<?> update(@PathVariable("id") int id, @RequestBody Horaire horaire) {
+
 		horaire.setId(id);
 		try {
 			horaireService.save(horaire);
-			return new ResponseEntity<>(horaire, HttpStatus.CREATED);
+			return new ResponseEntity<>(horaire, HttpStatus.OK);
 		} catch (BLLException e) {
 			return new ResponseEntity<>(e.getErreurs(), HttpStatus.CONFLICT);
 		}
