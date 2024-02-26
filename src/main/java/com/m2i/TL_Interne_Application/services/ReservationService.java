@@ -91,6 +91,10 @@ public class ReservationService {
 	public List<Reservation> getAllReservationsByDate(LocalDateTime startOfDay, LocalDateTime endOfDay) {
 		return reservationRepository.findByDateBetweenOrderByDate(startOfDay, endOfDay);
 	}
+	
+	public List<Reservation> getAllReservationsByRestaurantAndDate(LocalDateTime startOfDay, LocalDateTime endOfDay) {
+		return reservationRepository.findByDateBetweenOrderByDate(startOfDay, endOfDay);
+	}
 
 	public List<Reservation> findByRestaurantAndStatut(Restaurant restaurant, String statut) {
 		return reservationRepository.findByRestaurantAndStatut(restaurant, statut);
