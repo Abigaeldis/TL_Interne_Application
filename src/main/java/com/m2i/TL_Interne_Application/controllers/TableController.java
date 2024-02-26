@@ -69,18 +69,60 @@ public class TableController {
 			return new ResponseEntity<>(e.getErreurs(), HttpStatus.CONFLICT);
 		}
 	}
-
+	
+	@PutMapping ("/{id}/libre")
+	public ResponseEntity<?> updateLibre(@PathVariable("id") int id) {
+		Table table = service.getById(id);
+		table.setEtat("Libre");
+		try {
+			service.update(id, table);
+			return new ResponseEntity<>(table, HttpStatus.OK);
+		} catch (BLLException e) {
+			e.printStackTrace();
+			return new ResponseEntity<>(e.getErreurs(), HttpStatus.CONFLICT);
+		}
+	}
+	
+	@PutMapping ("/{id}/reservee")
+	public ResponseEntity<?> updateReservee(@PathVariable("id") int id) {
+		Table table = service.getById(id);
+		table.setEtat("Réservée");
+		try {
+			service.update(id, table);
+			return new ResponseEntity<>(table, HttpStatus.OK);
+		} catch (BLLException e) {
+			e.printStackTrace();
+			return new ResponseEntity<>(e.getErreurs(), HttpStatus.CONFLICT);
+		}
+	}
+	
+	@PutMapping ("/{id}/present")
+	public ResponseEntity<?> updatePresent(@PathVariable("id") int id) {
+		Table table = service.getById(id);
+		table.setEtat("Présent");
+		try {
+			service.update(id, table);
+			return new ResponseEntity<>(table, HttpStatus.OK);
+		} catch (BLLException e) {
+			e.printStackTrace();
+			return new ResponseEntity<>(e.getErreurs(), HttpStatus.CONFLICT);
+		}
+	}
+	
+	
 	@DeleteMapping(path = "/{id}")
 	public ResponseEntity<Void> deleteById(@PathVariable("id") int id) {
 		service.deleteById(id);
 		return new ResponseEntity<>(HttpStatus.OK);
 	}
 
+	
 	@DeleteMapping
 	public ResponseEntity<Void> deleteById(@RequestBody Table table) {
 		service.delete(table);
 		return new ResponseEntity<>(HttpStatus.OK);
 	}
+	
 
 	@GetMapping(path = "/restaurant/{id}/etat")
 	public ResponseEntity<List<Table>> getByRestaurantAndStatut(@PathVariable("id") int id,
