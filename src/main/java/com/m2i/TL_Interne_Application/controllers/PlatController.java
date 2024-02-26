@@ -38,7 +38,7 @@ public class PlatController {
 				.orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
 	}
 
-	@GetMapping("/{restaurantId}/plats")
+	@GetMapping("/restaurant/{restaurantId}")
 	public ResponseEntity<List<Plat>> getAllPlatsForRestaurant(@PathVariable int restaurantId) {
 		List<Plat> plats = platService.getAllPlatsForRestaurant(restaurantId);
 		if (plats == null) {

@@ -118,12 +118,53 @@ public class CommandeController {
 		}
 	}
 
-	@PutMapping("/{id}")
-	public ResponseEntity<?> update(@PathVariable("id") int id, @RequestBody Commande commande) {
+	@PutMapping("/{id}/lancee")
+	public ResponseEntity<?> updateStatutLancee(@PathVariable("id") int id) {
+		Commande commande = commandeService.getById(id);
 		commande.setId(id);
 		try {
+			commande.setStatut("Lancee");
 			commandeService.save(commande);
-			return new ResponseEntity<>(HttpStatus.CREATED);
+			return new ResponseEntity<>(commande, HttpStatus.OK);
+		} catch (BLLException e) {
+			return new ResponseEntity<>(e.getErreurs(), HttpStatus.CONFLICT);
+		}
+	}
+	
+	@PutMapping("/{id}/prete")
+	public ResponseEntity<?> updateStatutPrete(@PathVariable("id") int id) {
+		Commande commande = commandeService.getById(id);
+		commande.setId(id);
+		try {
+			commande.setStatut("Prete");
+			commandeService.save(commande);
+			return new ResponseEntity<>(commande, HttpStatus.OK);
+		} catch (BLLException e) {
+			return new ResponseEntity<>(e.getErreurs(), HttpStatus.CONFLICT);
+		}
+	}
+	
+	@PutMapping("/{id}/servie")
+	public ResponseEntity<?> updateStatutServie(@PathVariable("id") int id) {
+		Commande commande = commandeService.getById(id);
+		commande.setId(id);
+		try {
+			commande.setStatut("Servie");
+			commandeService.save(commande);
+			return new ResponseEntity<>(commande, HttpStatus.OK);
+		} catch (BLLException e) {
+			return new ResponseEntity<>(e.getErreurs(), HttpStatus.CONFLICT);
+		}
+	}
+	
+	@PutMapping("/{id}/reglee")
+	public ResponseEntity<?> updateStatutReglee(@PathVariable("id") int id) {
+		Commande commande = commandeService.getById(id);
+		commande.setId(id);
+		try {
+			commande.setStatut("Reglee");
+			commandeService.save(commande);
+			return new ResponseEntity<>(commande, HttpStatus.OK);
 		} catch (BLLException e) {
 			return new ResponseEntity<>(e.getErreurs(), HttpStatus.CONFLICT);
 		}

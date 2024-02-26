@@ -33,10 +33,10 @@ public class CommandeService {
 		System.out.println(commande.getDate().toLocalDate());
 		System.out.println(LocalDate.now());
 
-		if (!commande.getDate().toLocalDate().isEqual(LocalDate.now())) {
-			blleException.ajouterErreur("La date de la commande doit être à aujourd'hui.");
-		}
-
+		
+//		if (!commande.getDate().toLocalDate().isEqual(LocalDate.now())) {
+//			blleException.ajouterErreur("La date de la commande doit être à aujourd'hui.");
+//		}
 		if (commande.getPlatCommande().isEmpty()) {
 			blleException.ajouterErreur("Vous ne pouvez pas enregistrer une commande vide.");
 		}
