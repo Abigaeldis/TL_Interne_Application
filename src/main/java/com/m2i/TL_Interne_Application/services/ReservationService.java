@@ -40,11 +40,11 @@ public class ReservationService {
 			blleException.ajouterErreur("Veuillez choisir une date à venir et non passée.");
 		}
 
-		if (!validateHoraire(reservation.getDate(), reservation.getRestaurant(),
-				horaireService.findByRestaurant(reservation.getRestaurant()))) {
-			blleException.ajouterErreur(
-					"Veuillez choisir une date et un horaire de réservation parmi les horaires d'ouverture du magasin repris ci-dessous.");
-		}
+//		if (!validateHoraire(reservation.getDate(), reservation.getRestaurant(),
+//				horaireService.findByRestaurant(reservation.getRestaurant()))) {
+//			blleException.ajouterErreur(
+//					"Veuillez choisir une date et un horaire de réservation parmi les horaires d'ouverture du magasin repris ci-dessous.");
+//		}
 
 		if (blleException.getErreurs().size() > 0) {
 			throw blleException;
@@ -67,11 +67,11 @@ public class ReservationService {
 			blleException.ajouterErreur("Veuillez choisir une date à venir et non passée.");
 		}
 
-		if (!validateHoraire(reservation.getDate(), reservation.getRestaurant(),
-				horaireService.findByRestaurant(reservation.getRestaurant()))) {
-			blleException.ajouterErreur(
-					"Veuillez choisir une date et un horaire de réservation parmi les horaires d'ouverture du magasin repris ci-dessous.");
-		}
+//		if (!validateHoraire(reservation.getDate(), reservation.getRestaurant(),
+//				horaireService.findByRestaurant(reservation.getRestaurant()))) {
+//			blleException.ajouterErreur(
+//					"Veuillez choisir une date et un horaire de réservation parmi les horaires d'ouverture du magasin repris ci-dessous.");
+//		}
 
 		if (blleException.getErreurs().size() > 0) {
 			throw blleException;
@@ -89,7 +89,11 @@ public class ReservationService {
 	}
 
 	public List<Reservation> getAllReservationsByDate(LocalDateTime startOfDay, LocalDateTime endOfDay) {
-		return reservationRepository.findByDateBetween(startOfDay, endOfDay);
+		return reservationRepository.findByDateBetweenOrderByDate(startOfDay, endOfDay);
+	}
+	
+	public List<Reservation> getAllReservationsByRestaurantAndDate(LocalDateTime startOfDay, LocalDateTime endOfDay) {
+		return reservationRepository.findByDateBetweenOrderByDate(startOfDay, endOfDay);
 	}
 
 	public List<Reservation> findByRestaurantAndStatut(Restaurant restaurant, String statut) {

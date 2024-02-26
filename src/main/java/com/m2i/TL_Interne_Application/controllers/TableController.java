@@ -1,8 +1,10 @@
 package com.m2i.TL_Interne_Application.controllers;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -86,4 +88,11 @@ public class TableController {
 		Restaurant restaurant = restaurantService.getById(id);
 		return new ResponseEntity<>(service.findByRestaurantAndEtat(restaurant, etat), HttpStatus.OK);
 	}
+	
+	@GetMapping(path = "/libres/{idresto}")
+	public ResponseEntity<List<Table>> getTablesLibres(@PathVariable("idresto") int id, @RequestParam("date") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime date, @RequestParam("nbPersonnes") int nbPersonnes) {
+		Restaurant restaurant = restaurantService.getById(id);
+		return new ResponseEntity<>(service.findTablesEligiblesReservation(restaurant, date, nbPersonnes), HttpStatus.OK);
+	}
+	
 }

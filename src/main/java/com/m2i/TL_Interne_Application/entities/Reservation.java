@@ -2,6 +2,10 @@ package com.m2i.TL_Interne_Application.entities;
 
 import java.time.LocalDateTime;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateSerializer;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -29,5 +33,6 @@ public class Reservation {
 	@ManyToOne
 	@JoinColumn(name = "id_restaurant")
 	private Restaurant restaurant;
+	
 	
 }
