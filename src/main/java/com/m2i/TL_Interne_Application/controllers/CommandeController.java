@@ -18,9 +18,11 @@ import org.springframework.web.bind.annotation.RestController;
 import com.m2i.TL_Interne_Application.entities.AdditionWrapper;
 import com.m2i.TL_Interne_Application.entities.Commande;
 import com.m2i.TL_Interne_Application.entities.PlatCommandeWrapper;
+import com.m2i.TL_Interne_Application.entities.Table;
 import com.m2i.TL_Interne_Application.services.BLLException;
 import com.m2i.TL_Interne_Application.services.CommandeService;
 import com.m2i.TL_Interne_Application.services.RestaurantService;
+import com.m2i.TL_Interne_Application.services.TableService;
 
 @RestController
 @CrossOrigin
@@ -30,6 +32,9 @@ public class CommandeController {
 	private CommandeService commandeService;
 	@Autowired
 	private RestaurantService restaurantService;
+
+	@Autowired
+	private TableService tableService;
 
 	@GetMapping
 	public Iterable<Commande> getAll() {
@@ -41,45 +46,68 @@ public class CommandeController {
 		Commande commande = commandeService.getById(id);
 		if (commande != null) {
 			return new ResponseEntity<>(commande, HttpStatus.OK);
-		}
-		else {
+		} else {
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		}
 	}
-	
+
 	@GetMapping("/restaurant/{id}")
 	public ResponseEntity<List<Commande>> getByRestaurant(@PathVariable int id) {
 		List<Commande> commandes = commandeService.getByRestaurant(restaurantService.getById(id));
-    	if (commandes != null) {
+		if (commandes != null) {
 			return new ResponseEntity<>(commandes, HttpStatus.OK);
-		}
-		else {
+		} else {
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		}
 	}
-	
 
-	 @GetMapping("/by-plat-commande-is-not-empty")
-	    public ResponseEntity<List<Commande>> getByPlatCommandeIsNotEmpty() {
-        List<Commande> commandes = commandeService.findByPlatCommandeIsNotEmpty();
-        return new ResponseEntity<>(commandes, HttpStatus.OK);
-    }
+	@GetMapping("/by-plat-commande-is-not-empty")
+	public ResponseEntity<List<Commande>> getByPlatCommandeIsNotEmpty() {
+		List<Commande> commandes = commandeService.findByPlatCommandeIsNotEmpty();
+		return new ResponseEntity<>(commandes, HttpStatus.OK);
+	}
 
-    @GetMapping("/addition/{id}")
-    public ResponseEntity<?> getAddition(@PathVariable("id") int commandeId) {
-        Commande commande = commandeService.getById(commandeId);
-        List<PlatCommandeWrapper> listePlats;
-        float sommeTotale = (float) 0.0;
+	@GetMapping("/addition/{id}")
+	public ResponseEntity<?> getAddition(@PathVariable("id") int commandeId) {
+		Commande commande = commandeService.getById(commandeId);
+		List<PlatCommandeWrapper> listePlats;
+		float sommeTotale = (float) 0.0;
 		try {
 			listePlats = commandeService.getListeAddition(commande);
 			sommeTotale = commandeService.getTotalPriceOfCommande(commande);
 			AdditionWrapper addition = new AdditionWrapper(listePlats, sommeTotale);
-	        return new ResponseEntity<>(addition, HttpStatus.OK);
+			return new ResponseEntity<>(addition, HttpStatus.OK);
 		} catch (BLLException e) {
 			return new ResponseEntity<>(e.getErreurs(), HttpStatus.CONFLICT);
 		}
-    }
-    
+	}
+
+	@GetMapping("/restaurant/{restaurantId}/table/{tableNum}/statut/{statut}")
+	public ResponseEntity<List<Commande>> getCommandsByTableByStatut(@PathVariable int restaurantId,
+	        @PathVariable int tableNum, @PathVariable String statut) {
+
+
+	    List<Table> tables = tableService.findByRestaurant(restaurantService.getById(restaurantId));
+
+	    Table selectedTable = null;
+	    for (Table table : tables) {
+	        if (table.getNumTable() == tableNum) {
+	            selectedTable = table;
+	            break;
+	        }
+	    }
+	    
+	    List<Commande> commands = commandeService.getCommandsByTableAndStatut(selectedTable, statut);
+	    
+	    if (commands.isEmpty()) {
+	        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+	    }
+
+	    return new ResponseEntity<>(commands, HttpStatus.OK);
+	}
+
+
+
 	@PostMapping
 	public ResponseEntity<?> insert(@RequestBody Commande commande) {
 		try {
