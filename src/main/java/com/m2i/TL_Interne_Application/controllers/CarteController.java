@@ -42,7 +42,6 @@ public class CarteController {
 			createdCarte = carteService.createCarte(carte);
 			return new ResponseEntity<>(createdCarte, HttpStatus.CREATED);
 		} catch (BLLException e) {
-			e.printStackTrace();
 			return new ResponseEntity<>(e.getErreurs(), HttpStatus.CONFLICT);
 		}
 }
@@ -58,7 +57,6 @@ public class CarteController {
 	            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 	        }
 		} catch (BLLException e) {
-			e.printStackTrace();
 			return new ResponseEntity<>(e.getErreurs(), HttpStatus.CONFLICT);
 		}
  }

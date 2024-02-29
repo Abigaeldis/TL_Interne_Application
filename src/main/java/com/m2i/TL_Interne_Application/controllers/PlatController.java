@@ -83,7 +83,6 @@ public class PlatController {
 			createdPlat = platService.createPlat(plat);
 			return new ResponseEntity<>(createdPlat, HttpStatus.CREATED);
 		} catch (BLLException e) {
-			e.printStackTrace();
 			return new ResponseEntity<>(e.getErreurs(), HttpStatus.CONFLICT);
 
 		}
@@ -96,7 +95,6 @@ public class PlatController {
 			updated = platService.updatePlat(id, updatedPlat);
 			return new ResponseEntity<>(updated, HttpStatus.OK);
 		} catch (BLLException e) {
-			e.printStackTrace();
 			return new ResponseEntity<>(e.getErreurs(), HttpStatus.CONFLICT);
 		}
 	}

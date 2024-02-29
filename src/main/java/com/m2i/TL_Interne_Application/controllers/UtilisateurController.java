@@ -41,7 +41,6 @@ public class UtilisateurController {
 			utilisateurService.save(utilisateur);
 			return new ResponseEntity<>(utilisateur, HttpStatus.CREATED);
 		} catch (BLLException e) {
-			e.printStackTrace();
 			return new ResponseEntity<>(e.getErreurs(), HttpStatus.CONFLICT);
 		}
 	}
@@ -52,7 +51,6 @@ public class UtilisateurController {
 			utilisateurService.update(id, utilisateur);
 			return new ResponseEntity<>(utilisateur, HttpStatus.OK);
 		} catch (BLLException e) {
-			e.printStackTrace();
 			return new ResponseEntity<>(e.getErreurs(), HttpStatus.CONFLICT);
 		}
 	}
