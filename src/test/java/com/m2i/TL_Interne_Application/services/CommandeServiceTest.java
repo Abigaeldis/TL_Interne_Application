@@ -16,8 +16,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.jdbc.Sql;
 
-import com.m2i.TL_Interne_Application.entities.Commande;
-import com.m2i.TL_Interne_Application.entities.PlatCommandeWrapper;
+import com.m2i.entities.Commande;
+import com.m2i.entities.PlatCommandeWrapper;
+import com.m2i.services.BLLException;
+import com.m2i.services.CommandeService;
 
 @SpringBootTest
 class CommandeServiceTest {

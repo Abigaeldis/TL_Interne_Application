@@ -15,8 +15,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.jdbc.Sql;
 
-import com.m2i.TL_Interne_Application.entities.Restaurant;
-import com.m2i.TL_Interne_Application.entities.Table;
+import com.m2i.entities.Restaurant;
+import com.m2i.entities.Table;
+import com.m2i.services.RestaurantService;
+import com.m2i.services.TableService;
 
 @SpringBootTest
 class TableServiceTest {

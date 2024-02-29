@@ -16,10 +16,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.jdbc.Sql;
 
-import com.m2i.TL_Interne_Application.entities.Reservation;
-import com.m2i.TL_Interne_Application.entities.Restaurant;
-import com.m2i.TL_Interne_Application.repositories.ReservationRepository;
-import com.m2i.TL_Interne_Application.repositories.RestaurantRepository;
+import com.m2i.entities.Reservation;
+import com.m2i.entities.Restaurant;
+import com.m2i.repositories.ReservationRepository;
+import com.m2i.repositories.RestaurantRepository;
 
 @SpringBootTest
 class ReservationServiceTest {
