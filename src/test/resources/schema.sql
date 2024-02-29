@@ -45,7 +45,9 @@ CREATE TABLE messages (
 
 -- Table "horaires"
 CREATE TABLE horaires (
-    id INT PRIMARY KEY ,
+
+    id INT PRIMARY KEY,
+
     jour VARCHAR(10)  NOT NULL,
     heurededebut TIME  NOT NULL,
     heuredefin TIME  NOT NULL,
@@ -67,7 +69,9 @@ CREATE TABLE plats (
 
 -- Table "tables"
 CREATE TABLE tables (
-    id INT PRIMARY KEY ,
+
+    id INT PRIMARY KEY,
+
     num_table INT  NOT NULL,
     capacite_table INT  NOT NULL,
     etat VARCHAR(12) NULL,
@@ -78,7 +82,9 @@ CREATE TABLE tables (
 
 -- Table "reservations"
 CREATE TABLE reservations (
-    id INT PRIMARY KEY ,
+
+    id INT PRIMARY KEY,
+
     date DATETIME NOT NULL,
     statut VARCHAR(12)  NOT NULL,
     nb_personne INT  NOT NULL,
