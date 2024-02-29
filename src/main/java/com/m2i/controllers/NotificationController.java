@@ -21,9 +21,16 @@ import com.m2i.services.RestaurantService;
 @CrossOrigin
 @RequestMapping("/notifications")
 public class NotificationController {
-	@Autowired private MessageService messageService;
-	@Autowired private ReservationService reservationService;
-	@Autowired private RestaurantService restaurantService;
+	private MessageService messageService;
+	private ReservationService reservationService;
+	private RestaurantService restaurantService;
+	
+	@Autowired
+	public NotificationController(MessageService messageService,ReservationService reservationService,RestaurantService restaurantService) {
+		this.messageService = messageService;
+		this.reservationService = reservationService;
+		this.restaurantService = restaurantService;
+	}
 	
 	@GetMapping
 	public ResponseEntity<NotificationWrapper> getAll() {

@@ -19,10 +19,13 @@ import com.m2i.services.CarteService;
 @RestController
 @RequestMapping("/cartes")
 public class CarteController {
-
-	@Autowired
 	private CarteService carteService;
 
+	@Autowired
+	public CarteController(CarteService carteService) {
+		this.carteService = carteService;
+	}
+	
 	@GetMapping
 	public ResponseEntity<Iterable<Carte>> getAllCartes() {
 		Iterable<Carte> cartes = carteService.getAllCartes();

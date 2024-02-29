@@ -28,14 +28,17 @@ import com.m2i.services.TableService;
 @CrossOrigin
 @RequestMapping("/commandes")
 public class CommandeController {
-	@Autowired
 	private CommandeService commandeService;
-	@Autowired
 	private RestaurantService restaurantService;
-
-	@Autowired
 	private TableService tableService;
 
+	@Autowired
+	public CommandeController(CommandeService commandeService, RestaurantService restaurantService,TableService tableService) {
+		this.commandeService = commandeService;
+		this.restaurantService = restaurantService;
+		this.tableService = tableService;
+	}
+	
 	@GetMapping
 	public Iterable<Commande> getAll() {
 		return commandeService.getAll();

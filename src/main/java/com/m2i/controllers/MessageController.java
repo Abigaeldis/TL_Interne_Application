@@ -21,9 +21,13 @@ import com.m2i.services.MessageService;
 @CrossOrigin
 @RequestMapping("/messages")
 public class MessageController {
-	@Autowired
 	private MessageService messageService;
 
+	@Autowired
+	public MessageController(MessageService messageService) {
+		this.messageService = messageService;
+	}
+	
 	@GetMapping
 	public Iterable<Message> getAll() {
 		return messageService.getAll();

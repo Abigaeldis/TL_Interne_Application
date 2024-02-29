@@ -18,10 +18,13 @@ import com.m2i.services.PlatCommandeService;
 @RestController
 @RequestMapping("/plat-commandes")
 public class PlatCommandeController {
-
-    @Autowired
     private PlatCommandeService platCommandeService;
 
+    @Autowired
+    public PlatCommandeController(PlatCommandeService platCommandeService) {
+    	this.platCommandeService = platCommandeService;
+    }
+    
     @GetMapping
     public ResponseEntity<Iterable<PlatCommande>> getAllPlatCommandes() {
     	Iterable<PlatCommande> platCommandes = platCommandeService.getAllPlatCommandes();

@@ -13,8 +13,12 @@ import com.m2i.services.UtilisateurService;
 @CrossOrigin
 @RequestMapping("/logout")
 public class LogoutController {
-	@Autowired private UtilisateurService service;
+	private UtilisateurService service;
 	
+	@Autowired
+	public LogoutController(UtilisateurService service) {
+		this.service = service;
+	}
 	/*
 	 * Endpoint utilisé pour deconnecter un utilisateur grace à son token
 	 */

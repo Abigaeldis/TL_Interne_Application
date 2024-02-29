@@ -21,9 +21,13 @@ import com.m2i.services.UtilisateurService;
 @CrossOrigin
 @RequestMapping("/utilisateurs")
 public class UtilisateurController {
-	@Autowired
 	private UtilisateurService utilisateurService;
 
+	@Autowired
+	public UtilisateurController(UtilisateurService utilisateurService) {
+		this.utilisateurService = utilisateurService;
+	}
+	
 	@GetMapping
 	public Iterable<Utilisateur> getAll() {
 		return utilisateurService.getAll();
