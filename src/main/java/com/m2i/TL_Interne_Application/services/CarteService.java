@@ -10,10 +10,13 @@ import com.m2i.TL_Interne_Application.repositories.CarteRepository;
 
 @Service
 public class CarteService {
-
-    @Autowired
-    private CarteRepository carteRepository;
-
+	private final CarteRepository carteRepository;
+	
+	@Autowired
+    public CarteService(CarteRepository carteRepository) {
+        this.carteRepository = carteRepository;
+    }
+    
     public Iterable<Carte> getAllCartes() {
         return carteRepository.findAll();
     }

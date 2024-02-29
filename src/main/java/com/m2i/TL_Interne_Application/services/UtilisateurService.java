@@ -15,9 +15,13 @@ import com.m2i.TL_Interne_Application.repositories.UtilisateurRepository;
 
 @Service
 public class UtilisateurService {
-	@Autowired
 	private UtilisateurRepository utilisateurRepo;
 
+	@Autowired
+	public UtilisateurService(UtilisateurRepository utilisateurRepo) {
+		this.utilisateurRepo = utilisateurRepo;
+	}
+	
 	public Iterable<Utilisateur> getAll() {
 		return utilisateurRepo.findAll();
 	}

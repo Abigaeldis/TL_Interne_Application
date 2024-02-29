@@ -15,12 +15,14 @@ import com.m2i.TL_Interne_Application.repositories.ReservationRepository;
 
 @Service
 public class ReservationService {
-	@Autowired
 	private ReservationRepository reservationRepository;
 
 	@Autowired
-	HoraireService horaireService;
-
+	public ReservationService(ReservationRepository reservationRepository) {
+		this.reservationRepository = reservationRepository;
+	}
+	
+	
 	public Iterable<Reservation> getAll() {
 		return reservationRepository.findAll();
 	}

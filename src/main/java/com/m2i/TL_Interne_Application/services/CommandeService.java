@@ -17,9 +17,13 @@ import com.m2i.TL_Interne_Application.repositories.CommandeRepository;
 
 @Service
 public class CommandeService {
-	@Autowired
 	private CommandeRepository commandeRepo;
-
+	
+	@Autowired
+	public CommandeService(CommandeRepository commandeRepo) {
+		this.commandeRepo = commandeRepo;
+	}
+	
 	public Iterable<Commande> getAll() {
 		return commandeRepo.findAll();
 	}

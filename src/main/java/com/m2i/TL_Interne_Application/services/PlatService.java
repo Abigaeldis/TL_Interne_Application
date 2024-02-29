@@ -14,13 +14,15 @@ import com.m2i.TL_Interne_Application.repositories.RestaurantRepository;
 
 @Service
 public class PlatService {
-
-	@Autowired
 	private PlatRepository platRepository;
-
-	@Autowired
 	private RestaurantRepository restaurantRepository;
 
+	@Autowired 
+	public PlatService(PlatRepository platRepository, RestaurantRepository restaurantRepository) {
+		this.platRepository = platRepository;
+		this.restaurantRepository = restaurantRepository;
+	}
+	
 	public Iterable<Plat> getAllPlats() {
 		return platRepository.findAll();
 	}
