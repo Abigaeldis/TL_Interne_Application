@@ -18,7 +18,6 @@ VALUES
     (3, 'Menu Fête'),
 	(4, 'Menu Fête');
 
-
 -- Insertions pour la table restaurants
 INSERT INTO restaurants
 	(	id, nom						,	adresse													,	description																																																																					, id_carte	)
@@ -27,7 +26,7 @@ VALUES
 	( 	2, 'La Taverne du Temps Perdu'	,	'17 Rue Éphémère, Quartier Temporel, Cité Illusoire'	,	'Voyagez à travers les époques à la Taverne du Temps Perdu. Ce restaurant vous propose une expérience gastronomique qui mêle le passé et le futur, avec des plats revisités de différentes périodes historiques et des créations avant-gardistes.'											,		2	),
 	( 	3, 'L''Oasis Épicurienne'		,	'8 Avenue Gourmande, Quartier Désertique, Ville Mirage' ,	'L''Oasis Épicurienne est un refuge gastronomique au cœur du désert culinaire. Découvrez des saveurs exotiques, des épices envoûtantes et des plats inspirés des traditions du monde entier, le tout dans un cadre somptueux digne d''une oasis gourmande.'									,		3	),
 	( 	4, 'Le Galion Gourmand'		,	'Port Savor, Île Gourmet, Océan Délicieux'				,	'Embarquez à bord du Galion Gourmand pour une aventure gastronomique en haute mer. Ce restaurant au thème maritime propose des fruits de mer frais, des plats inspirés des voyages exotiques et une ambiance maritime qui évoque le charme intemporel des grandes expéditions culinaires.'	,		4	);
-	
+
 -- Insertions pour la table "horaires"
 INSERT INTO horaires (id, jour, heurededebut, heuredefin, creneau, id_restaurant)
 VALUES
@@ -70,7 +69,7 @@ VALUES
     (3, 3, 2, 'Libre',		1),
     (4, 4, 8, 'Réservée',	1),
     (5, 5, 4, 'Libre',		1);
-
+    
 -- Insertions pour la table "reservations"
 INSERT INTO reservations 
 	(id, date, statut, nb_personne, id_utilisateur, id_table, id_restaurant)
