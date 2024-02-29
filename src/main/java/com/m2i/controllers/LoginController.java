@@ -16,7 +16,12 @@ import com.m2i.services.UtilisateurService;
 @CrossOrigin
 @RequestMapping("/login")
 public class LoginController {
-	@Autowired private UtilisateurService service;
+	private UtilisateurService service;
+	
+	@Autowired 
+	public LoginController(UtilisateurService service) {
+		this.service = service;
+	}
 	
 	/*
 	 * Endpoint utilisé pour authentifier un utilisateur au moment du login.

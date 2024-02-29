@@ -33,6 +33,12 @@ public class TableController {
 	@Autowired
 	private RestaurantService restaurantService;
 
+	@Autowired
+	public TableController(TableService service,RestaurantService restaurantService) {
+		this.service = service;
+		this.restaurantService = restaurantService;
+	}
+	
 	@GetMapping
 	public Iterable<Table> getAll() {
 		return service.getAll();

@@ -24,11 +24,15 @@ import com.m2i.services.RestaurantService;
 @CrossOrigin
 @RequestMapping("/horaires")
 public class HoraireController {
-	@Autowired
 	private HoraireService horaireService;
-	@Autowired
 	private RestaurantService restaurantService;
 
+	@Autowired
+	public HoraireController(HoraireService horaireService,RestaurantService restaurantService) {
+		this.horaireService = horaireService;
+		this.restaurantService = restaurantService;
+	}
+	
 	@GetMapping
 	public Iterable<Horaire> getAll() {
 		return horaireService.getAll();

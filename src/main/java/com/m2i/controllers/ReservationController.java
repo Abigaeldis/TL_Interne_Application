@@ -30,11 +30,15 @@ import com.m2i.services.RestaurantService;
 @CrossOrigin
 @RequestMapping("/reservations")
 public class ReservationController {
-	@Autowired
 	private ReservationService service;
-	@Autowired
 	private RestaurantService restaurantService;
 
+	@Autowired
+	public ReservationController(ReservationService service, RestaurantService restaurantService) {
+		this.restaurantService = restaurantService;
+		this.service = service;
+	}
+	
 	@GetMapping
 	public Iterable<Reservation> getAll() {
 		return service.getAll();

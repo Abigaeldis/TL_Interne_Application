@@ -22,9 +22,12 @@ import com.m2i.services.PlatService;
 @RestController
 @RequestMapping("/plats")
 public class PlatController {
-
-	@Autowired
 	private PlatService platService;
+	
+	@Autowired
+	public PlatController(PlatService platService) {
+		this.platService = platService;
+	}
 
 	@GetMapping
 	public ResponseEntity<Iterable<Plat>> getAllPlats() {
