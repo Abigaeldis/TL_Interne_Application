@@ -9,7 +9,6 @@ DELETE FROM horaires;
 DELETE FROM restaurants;
 DELETE FROM cartes;
 
-
 -- Insertion d'exemple pour la table "cartes"
 INSERT INTO cartes (id, nom)
 VALUES
@@ -41,7 +40,6 @@ VALUES
     (9, 'Vendredi', '8:00', '12:00', 'MIDI', 1),
 	(10, 'Vendredi', '13:00', '21:00', 'SOIR', 1);
 
- -- Insertions pour la table "utilisateurs"
 INSERT INTO utilisateurs 
     (id, nom, prenom, mail, motdepasse, telephone, adresse, role, token, expiration_time, id_restaurant)
 VALUES 
@@ -50,7 +48,6 @@ VALUES
     (3, 'Brown', 'Emma', 'emma.brown@email.com', 'elephant', '555555555', '789 Boulevard des données', 'manager', NULL, NULL, 2),
     (4, 'Dupont', 'Alice', 'alice.dupont@email.com', 'giraffe', '123456789', '1 Rue de l''exemple', 'client', NULL, NULL, 1),
     (5, 'Martin', 'Paul', 'paul.martin@email.com', 'zebra', '987654321', '2 Avenue des tests', 'client', NULL, NULL, 2);
-
 
 -- Insertion modifiée pour la table "messages"
 INSERT INTO messages (id, titre, corps_message, id_restaurant, id_utilisateur)
@@ -69,16 +66,17 @@ VALUES
     (3, 3, 2, 'Libre',		1),
     (4, 4, 8, 'Réservée',	1),
     (5, 5, 4, 'Libre',		1);
-    
+
 -- Insertions pour la table "reservations"
 INSERT INTO reservations 
 	(id, date, statut, nb_personne, id_utilisateur, id_table, id_restaurant)
 VALUES
     (1, CONVERT(DATETIME,'2023-01-15 18:00:00',120), 'Confirmée',	2, 1, 2, 1),
-    (2, CONVERT(DATETIME,'2023-01-20 19:30:00',120), 'En attente',	4, 3, 3, 1),
+    (2, CONVERT(DATETIME,'2023-01-20 19:30:00',120), 'En attente',	4, 3, 3, 2),
     (3, CONVERT(DATETIME,'2023-02-05 20:00:00',120), 'Confirmée',	6, 2, 1, 1),
-    (4, CONVERT(DATETIME,'2023-02-10 21:00:00',120), 'Annulée',	8, 4, 4, 1),
+    (4, CONVERT(DATETIME,'2023-02-10 21:00:00',120), 'Annulée',	8, 4, 4, 2),
     (5, CONVERT(DATETIME,'2023-02-15 18:30:00',120), 'Confirmée',	3, 5, 5, 1);
+ 
 
 -- Insertions pour la table "commandes"
 INSERT INTO commandes 
@@ -89,7 +87,6 @@ VALUES
     (3, 'En attente',	3, NULL),
     (4, 'Annulée',		4, 4),
     (5, 'En cours',	5, 5);
-
 
 INSERT INTO plats
 	(id, nom									,	description														,	prix	,	type		,		id_carte	)
@@ -128,3 +125,4 @@ VALUES
     (3, 3, 2, 2),
     (4, 1, 4, 3),
     (5, 2, 5, 4);
+
