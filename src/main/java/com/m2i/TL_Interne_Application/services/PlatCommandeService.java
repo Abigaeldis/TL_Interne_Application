@@ -10,10 +10,13 @@ import com.m2i.TL_Interne_Application.repositories.PlatCommandeRepository;
 
 @Service
 public class PlatCommandeService {
-
-    @Autowired
     private PlatCommandeRepository platCommandeRepository;
 
+    @Autowired
+    public PlatCommandeService(PlatCommandeRepository platCommandeRepository) {
+    	this.platCommandeRepository = platCommandeRepository;
+    }
+    
     public Iterable<PlatCommande> getAllPlatCommandes() {
         return platCommandeRepository.findAll();
     }

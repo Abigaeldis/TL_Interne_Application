@@ -13,10 +13,14 @@ import com.m2i.TL_Interne_Application.repositories.RestaurantRepository;
 
 @Service
 public class HoraireService {
-	@Autowired
 	private HoraireRepository horaireRepository;
-	@Autowired
 	private RestaurantRepository restaurantRepository;
+	
+	@Autowired
+	public HoraireService(HoraireRepository horaireRepository, RestaurantRepository restaurantRepository) {
+		this.horaireRepository = horaireRepository;
+		this.restaurantRepository = restaurantRepository;
+	}
 	
 	public Iterable<Horaire> getAll() {
 		return horaireRepository.findAll();

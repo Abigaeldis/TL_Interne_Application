@@ -16,11 +16,15 @@ import com.m2i.TL_Interne_Application.repositories.TableRepository;
 
 @Service
 public class TableService {
-	@Autowired
 	private TableRepository tableRepository;
-	@Autowired
 	private ReservationService reservationService;
-
+	
+	@Autowired
+	public TableService(TableRepository tableRepository,ReservationService reservationService) {
+		this.reservationService = reservationService;
+		this.tableRepository = tableRepository;
+	}
+	
 	public Iterable<Table> getAll() {
 		return tableRepository.findAll();
 	}

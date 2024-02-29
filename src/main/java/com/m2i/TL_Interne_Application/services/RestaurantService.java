@@ -8,9 +8,13 @@ import com.m2i.TL_Interne_Application.repositories.RestaurantRepository;
 
 @Service
 public class RestaurantService {
-	@Autowired
 	private RestaurantRepository restaurantRepository;
-
+	
+	@Autowired
+	public RestaurantService(RestaurantRepository restaurantRepository) {
+		this.restaurantRepository = restaurantRepository;
+	}
+	
 	public Iterable<Restaurant> getAll() {
 		return restaurantRepository.findAll();
 	}

@@ -14,11 +14,16 @@ import com.m2i.TL_Interne_Application.repositories.UtilisateurRepository;
 
 @Service
 public class MessageService {
-	@Autowired private MessageRepository messageRepo;
-	@Autowired
+	private MessageRepository messageRepo;
 	private RestaurantRepository restaurantRepository;
-	@Autowired
 	private UtilisateurRepository utilisateurRepository;
+	
+	@Autowired 
+	public MessageService(MessageRepository messageRepo,RestaurantRepository restaurantRepository,UtilisateurRepository utilisateurRepository) {
+		this.messageRepo = messageRepo;
+		this.restaurantRepository = restaurantRepository;
+		this.utilisateurRepository = utilisateurRepository;
+	}
 	
 	public Iterable<Message> getAll() { 
 		return messageRepo.findAll(); 
