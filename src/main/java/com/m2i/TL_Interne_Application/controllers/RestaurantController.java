@@ -39,7 +39,6 @@ public class RestaurantController {
 			service.save(restaurant);
 			return new ResponseEntity<>(HttpStatus.CREATED);
 		} catch(BLLException e) {
-			e.printStackTrace();
 			return new ResponseEntity<>(e.getErreurs(), HttpStatus.CONFLICT);
 		}
 	}
@@ -50,7 +49,6 @@ public class RestaurantController {
 			service.update(id, restaurant);
 			return new ResponseEntity<>(HttpStatus.OK);
 		} catch (BLLException e) {
-			e.printStackTrace();
 			return new ResponseEntity<>(e.getErreurs(), HttpStatus.CONFLICT);
 		}
 

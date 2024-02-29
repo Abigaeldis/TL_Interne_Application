@@ -36,7 +36,6 @@ class CommandeServiceTest {
 		try {
 			prixCommande = service.getTotalPriceOfCommande(commande);
 		} catch (BLLException e) {
-			e.printStackTrace();
 		}
 		assertEquals(23, prixCommande);
 	}
@@ -49,7 +48,6 @@ class CommandeServiceTest {
 		try {
 			prixCommande = service.getTotalPriceOfCommande(commande);
 		} catch (BLLException e) {
-			e.printStackTrace();
 		}
 		assertEquals(0, prixCommande);
 	}
@@ -70,7 +68,6 @@ class CommandeServiceTest {
 		try {
 			platsCommandes = service.getListeAddition(commande);
 		} catch (BLLException e) {
-			e.printStackTrace();
 		}
 		assertEquals(2, platsCommandes.size());
 		assertIterableEquals(

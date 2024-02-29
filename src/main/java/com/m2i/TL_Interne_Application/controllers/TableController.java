@@ -54,7 +54,6 @@ public class TableController {
 			service.save(table);
 			return new ResponseEntity<>(HttpStatus.CREATED);
 		} catch (BLLException e) {
-			e.printStackTrace();
 			return new ResponseEntity<>(e.getErreurs(), HttpStatus.CONFLICT);
 		}
 	}
@@ -65,7 +64,6 @@ public class TableController {
 			service.update(id, table);
 			return new ResponseEntity<>(HttpStatus.OK);
 		} catch (BLLException e) {
-			e.printStackTrace();
 			return new ResponseEntity<>(e.getErreurs(), HttpStatus.CONFLICT);
 		}
 	}
@@ -78,7 +76,6 @@ public class TableController {
 			service.update(id, table);
 			return new ResponseEntity<>(table, HttpStatus.OK);
 		} catch (BLLException e) {
-			e.printStackTrace();
 			return new ResponseEntity<>(e.getErreurs(), HttpStatus.CONFLICT);
 		}
 	}
@@ -91,7 +88,6 @@ public class TableController {
 			service.update(id, table);
 			return new ResponseEntity<>(table, HttpStatus.OK);
 		} catch (BLLException e) {
-			e.printStackTrace();
 			return new ResponseEntity<>(e.getErreurs(), HttpStatus.CONFLICT);
 		}
 	}
@@ -104,7 +100,6 @@ public class TableController {
 			service.update(id, table);
 			return new ResponseEntity<>(table, HttpStatus.OK);
 		} catch (BLLException e) {
-			e.printStackTrace();
 			return new ResponseEntity<>(e.getErreurs(), HttpStatus.CONFLICT);
 		}
 	}

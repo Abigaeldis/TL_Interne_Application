@@ -84,7 +84,6 @@ public class ReservationController {
 			service.save(reservation);
 			return new ResponseEntity<>(reservation, HttpStatus.CREATED);
 		} catch (BLLException e) {
-			e.printStackTrace();
 			return new ResponseEntity<>(e.getErreurs(), HttpStatus.CONFLICT);
 		}
 	}
@@ -95,7 +94,6 @@ public class ReservationController {
 			service.update(id, reservation);
 			return new ResponseEntity<>(reservation, HttpStatus.OK);
 		} catch (BLLException e) {
-			e.printStackTrace();
 			return new ResponseEntity<>(e.getErreurs(), HttpStatus.CONFLICT);
 		}
 	}
