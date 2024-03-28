@@ -3,13 +3,13 @@ DROP TABLE platscommandes, commandes, reservations, tables, plats, horaires,  me
 
 -- Table "cartes"
 CREATE TABLE cartes (
-    id INT PRIMARY KEY,
+    id INT PRIMARY KEY IDENTITY,
     nom VARCHAR(30) NULL,
 );
 
 -- Table "restaurants"
 CREATE TABLE restaurants (
-    id INT PRIMARY KEY,
+    id INT PRIMARY KEY IDENTITY,
     nom VARCHAR(30) NOT NULL,
     adresse VARCHAR(150) NOT NULL,
     description VARCHAR(300),
@@ -19,11 +19,11 @@ CREATE TABLE restaurants (
 
 -- Table "utilisateurs"
 CREATE TABLE utilisateurs (
-    id INT PRIMARY KEY,
+    id INT PRIMARY KEY IDENTITY,
     nom VARCHAR(30) NOT NULL,
-    prenom VARCHAR(30) NOT NULL,
-    mail VARCHAR(30) NOT NULL,
-    motdepasse VARCHAR(30) NOT NULL,
+    prenom VARCHAR(30) NULL,
+    mail VARCHAR(30) NULL,
+    motdepasse VARCHAR(30) NULL,
     telephone VARCHAR(15),
     adresse VARCHAR(150),
     role VARCHAR(50),
@@ -34,7 +34,7 @@ CREATE TABLE utilisateurs (
 
 -- Table "messages"
 CREATE TABLE messages (
-    id INT PRIMARY KEY,
+    id INT PRIMARY KEY IDENTITY,
     titre VARCHAR(50) NULL,
     corps_message VARCHAR(300) NULL,
 	id_restaurant INT FOREIGN KEY REFERENCES restaurants(id)  NOT NULL,
@@ -45,7 +45,7 @@ CREATE TABLE messages (
 
 -- Table "horaires"
 CREATE TABLE horaires (
-    id INT PRIMARY KEY ,
+    id INT PRIMARY KEY IDENTITY,
     jour VARCHAR(10)  NOT NULL,
     heurededebut TIME  NOT NULL,
     heuredefin TIME  NOT NULL,
@@ -55,7 +55,7 @@ CREATE TABLE horaires (
 
 -- Table "plats"
 CREATE TABLE plats (
-    id INT PRIMARY KEY   NOT NULL,
+    id INT PRIMARY KEY IDENTITY  NOT NULL,
     nom VARCHAR(30)  NOT NULL,
     description VARCHAR(150) NULL,
     prix NUMERIC(5, 2)  NOT NULL,
@@ -67,7 +67,7 @@ CREATE TABLE plats (
 
 -- Table "tables"
 CREATE TABLE tables (
-    id INT PRIMARY KEY ,
+    id INT PRIMARY KEY IDENTITY,
     num_table INT  NOT NULL,
     capacite_table INT  NOT NULL,
     etat VARCHAR(12) NULL,
@@ -78,11 +78,11 @@ CREATE TABLE tables (
 
 -- Table "reservations"
 CREATE TABLE reservations (
-    id INT PRIMARY KEY ,
+    id INT PRIMARY KEY IDENTITY,
     date DATETIME NOT NULL,
     statut VARCHAR(12)  NOT NULL,
     nb_personne INT  NOT NULL,
-    id_utilisateur INT FOREIGN KEY REFERENCES utilisateurs(id) ON DELETE CASCADE NOT NULL,
+    id_utilisateur INT FOREIGN KEY REFERENCES utilisateurs(id) ON DELETE CASCADE NULL,
     id_table INT FOREIGN KEY REFERENCES tables(id),
     id_restaurant INT FOREIGN KEY REFERENCES restaurants(id)  NOT NULL
 );
@@ -91,7 +91,7 @@ CREATE TABLE reservations (
 
 -- Table "commandes"
 CREATE TABLE commandes (
-    id INT PRIMARY KEY ,
+    id INT PRIMARY KEY IDENTITY,
     statut VARCHAR(12)  NOT NULL,
     date DATETIME DEFAULT GETDATE()  NOT NULL,
     id_table INT FOREIGN KEY REFERENCES tables(id)  NOT NULL,
@@ -100,10 +100,10 @@ CREATE TABLE commandes (
 
 -- Table "platscommandes"
 CREATE TABLE platscommandes (
-    id INT PRIMARY KEY ,
+    id INT PRIMARY KEY IDENTITY,
     nb_plat INT DEFAULT 1  NOT NULL,
     id_plat INT FOREIGN KEY REFERENCES plats(id)  NOT NULL,
-    id_commande INT FOREIGN KEY REFERENCES commandes(id)  ON DELETE CASCADE NOT NULL 
+    id_commande INT FOREIGN KEY REFERENCES commandes(id)  ON DELETE CASCADE NULL 
 );
 
 SELECT * FROM cartes;
